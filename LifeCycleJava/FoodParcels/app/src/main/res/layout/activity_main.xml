@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+    <TextView
+        android:id="@+id/tempTextk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title"
+        android:layout_marginTop="10dp"
+
+        />
+
+
+
+
+            <ImageView
+                android:id="@+id/pizza"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/tempTextk"
+
+                android:src="@android:drawable/alert_dark_frame"
+                />
+
+            <TextView
+                android:id="@+id/piz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Pizza"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@id/pizza"
+                android:layout_below="@id/tempTextk"
+                />
+            <TextView
+                android:id="@+id/date1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Pizza"
+                android:gravity="right"
+                android:layout_below="@id/piz"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@id/pizza"
+                />
+
+
+            <ImageView
+                android:id="@+id/rice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                app:srcCompat="@android:drawable/alert_dark_frame"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/pizza"
+                />
+
+            <TextView
+                android:id="@+id/ricey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/FriedRice"
+                android:layout_toRightOf="@id/rice"
+                android:layout_marginLeft="20dp"
+
+                android:layout_marginTop="30dp"
+                android:layout_below="@id/date1"
+                />
+            <TextView
+                android:id="@+id/date2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Pizza"
+                android:layout_toRightOf="@id/rice"
+                android:layout_marginLeft="20dp"
+
+                android:layout_below="@id/ricey"/>
+
+
+
+
+            <ImageView
+                android:id="@+id/FnC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                app:srcCompat="@android:drawable/alert_dark_frame"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/rice"
+
+               />
+            <TextView
+                android:id="@+id/fncy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/FishandChips"
+                android:layout_marginTop="30dp"
+                android:layout_toRightOf="@id/FnC"
+                android:layout_marginLeft="20dp"
+                android:layout_below="@id/date2"
+
+                />
+            <TextView
+                android:id="@+id/date3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Pizza"
+                android:layout_toRightOf="@id/FnC"
+                android:layout_marginLeft="20dp"
+                android:layout_below="@id/fncy"/>
+
+
+
+
+
+
+            <ImageView
+                android:id="@+id/vindaloo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                app:srcCompat="@android:drawable/alert_dark_frame"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/FnC"
+
+                />
+            <TextView
+                android:id="@+id/vda"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Vindaloo"
+                android:layout_toRightOf="@id/vindaloo"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_below="@id/date3"
+
+
+                />
+            <TextView
+                android:id="@+id/date4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Pizza"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/vindaloo"
+                android:layout_marginLeft="20dp"
+                android:layout_below="@id/vda"
+              />
+
+
+
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

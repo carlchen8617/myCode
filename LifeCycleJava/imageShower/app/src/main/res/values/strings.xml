@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Image Viewer by 101665196</string>
+    <string name="title">My favourite food</string>
+    <string name="Vindaloo">Vindaloo</string>
+    <string name="FishandChips">Fish and Chips</string>
+    <string name="FriedRice">Fried Rice</string>
+    <string name="Pizza">Pizza</string>
+    <string name="ita">"Pizza! The italian sensation!"</string>
+    <string name="rr">"I just love fried rice!"</string>
+    <string name="fish">fried battered fish and hot potato chips, mouse watering!!</string>
+    <string name="vv">Vindaloo, my favorite Inidan dish, hot and spicy!!</string>
+
+</resources>

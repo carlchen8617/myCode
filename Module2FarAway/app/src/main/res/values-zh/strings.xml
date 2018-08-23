@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Module2FarAway by Carl Chen</string>
+    <string name="convert">变换!</string>
+    <string name="mile">英里</string>
+    <string name="feet">英尺</string>
+    <string name="inch">英寸</string>
+    <string name="metre">米</string>
+    <string name="cm">厘米</string>
+    <string name="clear">还原</string>
+    <string name="title">英制公制变换</string>
+
+</resources>

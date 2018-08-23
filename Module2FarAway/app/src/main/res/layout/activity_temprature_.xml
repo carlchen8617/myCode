@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Temprature_Activity">
+    <TextView
+        android:id="@+id/tempText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Temperature Converter"
+        android:textStyle="bold"
+        />
+
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tempTabs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:shrinkColumns="0"
+        android:stretchColumns="1"
+        android:layout_below="@+id/tempText"
+        android:layout_marginTop="30dp">
+
+
+    <TableRow>
+        <TextView
+            android:id="@+id/faren"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Fahrenheit "
+            />
+
+        <EditText
+            android:id="@+id/farenEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:gravity="left"
+            android:ems="5"
+            android:inputType="numberDecimal"
+            android:text="0.0" />
+
+    </TableRow>
+
+
+
+    <TableRow>
+
+        <CheckBox
+            android:id="@+id/temp_cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="C to F"
+
+
+            />
+    </TableRow>
+    <TableRow>
+        <Button
+            android:id="@+id/temp_convert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/convert"
+
+            android:layout_below="@id/temp_cb"
+            android:layout_marginTop="20dp"
+            />
+
+    </TableRow>
+
+        <TableRow>
+            <Button
+                android:id="@+id/temp_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clear"
+
+
+
+                />
+
+            <TableRow >
+                <Button
+                    android:id="@+id/goback"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="back"
+                    tools:layout_editor_absoluteX="76dp"
+                    tools:layout_editor_absoluteY="283dp" />
+            </TableRow>
+
+        </TableRow>
+    </TableLayout>
+
+
+
+
+
+</android.support.constraint.ConstraintLayout>

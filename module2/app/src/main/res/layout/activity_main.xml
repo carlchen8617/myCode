@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello World!"
+            />
+
+        <ImageView
+            android:id="@+id/IV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_panda"
+            android:layout_below="@id/TV"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="50dp"
+            />
+
+        <TextView
+            android:id="@+id/TVPanda"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Panda"
+            android:layout_below="@id/IV"
+
+            android:layout_marginLeft="50dp"
+            />
+
+        <ImageView
+            android:id="@+id/IV2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_giraffe_facts_1"
+            android:layout_below="@id/TVPanda"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="50dp"
+            />
+
+        <TextView
+            android:id="@+id/TVGiraffe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giraffe"
+            android:layout_below="@id/IV2"
+
+            android:layout_marginLeft="50dp"
+            />
+        <ImageView
+            android:id="@+id/IV3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_cheeta"
+            android:layout_below="@id/TVGiraffe"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="50dp"
+            />
+
+        <TextView
+            android:id="@+id/TV3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cheeta"
+            android:layout_below="@id/IV3"
+
+            android:layout_marginLeft="50dp"
+            />
+
+
+
+    </RelativeLayout>
+
+
+
+
+</android.support.constraint.ConstraintLayout>

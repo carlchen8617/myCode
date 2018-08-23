@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/tempTextk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title"
+        android:layout_marginTop="10dp"
+
+         />
+
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tempTabs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tempTextk"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="80dp">
+
+        <TableRow>
+
+            <ImageView
+                android:id="@+id/pizza"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                app:srcCompat="@mipmap/pizza_round" />
+
+            <TextView
+                android:id="@+id/piz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Pizza"
+                />
+
+        </TableRow>
+
+        <TableRow>
+
+            <ImageView
+                android:id="@+id/rice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                app:srcCompat="@mipmap/rice_round"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/ricey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/FriedRice"
+                android:layout_marginTop="20dp"
+                />
+        </TableRow>
+
+        <TableRow>
+
+            <ImageView
+                android:id="@+id/FnC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                app:srcCompat="@mipmap/fishchip_round"
+                android:layout_marginTop="20dp"/>
+            <TextView
+                android:id="@+id/fncy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/FishandChips"
+                android:layout_marginTop="20dp"
+                />
+
+
+        </TableRow>
+
+
+        <TableRow>
+
+            <ImageView
+                android:id="@+id/vindaloo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                app:srcCompat="@mipmap/indian_round"
+            android:layout_marginTop="20dp"/>
+            <TextView
+                android:id="@+id/vda"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Vindaloo"
+                android:layout_marginTop="20dp"
+                />
+
+        </TableRow>
+
+
+    </TableLayout>
+
+
+
+
+</android.support.constraint.ConstraintLayout>
