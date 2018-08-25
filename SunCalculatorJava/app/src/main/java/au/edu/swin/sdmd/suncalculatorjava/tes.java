@@ -1,34 +1,27 @@
 package au.edu.swin.sdmd.suncalculatorjava;
 
-
-
-
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-
-
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link places.OnFragmentInteractionListener} interface
+ * {@link tes.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link places#newInstance} factory method to
+ * Use the {@link tes#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class places extends Fragment {
+public class tes extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -36,7 +29,7 @@ public class places extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public places() {
+    public tes() {
         // Required empty public constructor
     }
 
@@ -46,13 +39,11 @@ public class places extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment places.
+     * @return A new instance of fragment tes.
      */
     // TODO: Rename and change types and number of parameters
-    public static places newInstance(String param1, String param2) {
-
-
-        places fragment = new places();
+    public static tes newInstance(String param1, String param2) {
+        tes fragment = new tes();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -63,8 +54,6 @@ public class places extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -74,29 +63,22 @@ public class places extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
-        View myv= inflater.inflate(R.layout.fragment_places, container, false);
-        Spinner spinner = (Spinner) myv.findViewById(R.id.places_spinner);
-// Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(myv.getContext(),
-                R.array.places_array, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
-
-        return myv;
-
+        return inflater.inflate(R.layout.fragment_tes, container, false);
     }
 
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
-
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -108,9 +90,6 @@ public class places extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
-
-
 
     /**
      * This interface must be implemented by activities that contain this
@@ -124,6 +103,6 @@ public class places extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(int  uri);
+        void onFragmentInteraction(Uri uri);
     }
 }

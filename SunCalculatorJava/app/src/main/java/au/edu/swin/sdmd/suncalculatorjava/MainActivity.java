@@ -9,8 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -21,7 +23,7 @@ import android.support.v7.widget.Toolbar;
 import au.edu.swin.sdmd.suncalculatorjava.calc.AstronomicalCalendar;
 import au.edu.swin.sdmd.suncalculatorjava.calc.GeoLocation;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements places.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        FrameLayout fl=findViewById(R.id.fragment_container);
         switch (item.getItemId()) {
             case R.id.share:
                 // User chose the "Settings" item, show the app settings UI...
@@ -54,17 +58,20 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.search:
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                fl.setLayoutParams(lp);
                 // User chose the "Favorite" action, mark the current item
                 // as a favorite...
               places firstFragment = places.newInstance("g", "v");
 
-                // In case this activity was started with special instructions from an
-                // Intent, pass the Intent's extras to the fragment as arguments
-                firstFragment.setArguments(getIntent().getExtras());
+                android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager()
+                        .beginTransaction();
 
-                // Add the fragment to the 'fragment_container' FrameLayout
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragment_container, firstFragment).commit();
+                ft.replace(fl.getId(), firstFragment);
+
+                ft.commit();
+
+
                 return true;
             case R.id.action_settings:
 
@@ -76,6 +83,11 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    public void onFragmentInteraction(int position) {
+        // The user selected the headline of an article from the HeadlinesFragment
+        // Do something here to display that article
     }
 
     private void shareIt(){
@@ -101,7 +113,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateTime(int year, int monthOfYear, int dayOfMonth) {
         TimeZone tz = TimeZone.getDefault();
-        GeoLocation geolocation = new GeoLocation("Melbourne", -37.50, 145.01, tz);
+        GeoLocation geolocation = new GeoLocation("Sydney", -37.81
+                , 144.96, tz);
         AstronomicalCalendar ac = new AstronomicalCalendar(geolocation);
         ac.getCalendar().set(year, monthOfYear, dayOfMonth);
         Date srise = ac.getSunrise();
