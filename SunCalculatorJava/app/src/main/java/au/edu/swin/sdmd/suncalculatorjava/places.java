@@ -6,10 +6,15 @@ package au.edu.swin.sdmd.suncalculatorjava;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 
@@ -23,7 +28,7 @@ import android.widget.Spinner;
  * Use the {@link places#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class places extends Fragment {
+public class places extends Fragment implements Spinner.OnItemSelectedListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -33,6 +38,7 @@ public class places extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -72,22 +78,64 @@ public class places extends Fragment {
     }
 
     @Override
+
+    /*
+      Thia section use omCreateView method to prepare the spinner code, the
+      spinner codes here are taken fromm the Android official documentation
+      boil plate code but in createFromResourc function you cant use "this" keyword
+      as in the documentation but have to use view.getcontect() API call.
+
+     */
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
 
         // Inflate the layout for this fragment
         View myv= inflater.inflate(R.layout.fragment_places, container, false);
         Spinner spinner = (Spinner) myv.findViewById(R.id.places_spinner);
-// Create an ArrayAdapter using the string array and a default spinner layout
+        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(myv.getContext(),
                 R.array.places_array, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
+       // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
+       // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(this);
 
         return myv;
 
+    }
+
+    /*
+      This function provides interface that to listen to the spinner selection events
+
+     */
+
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
+        // An item was selected. You can retrieve the selected item using
+        // parent.getItemAtPosition(pos)
+
+
+      String o=  parent.getSelectedItem().toString();
+
+
+        Log.d("ok","oj"+o);
+
+        if(o!=null){ //Only send call back if the selection is not empty
+            mListener.onFragmentInteraction(o);
+        }
+
+
+
+
+
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback and this is REQUIRED CALLBACK, dont delete
     }
 
 
@@ -124,6 +172,6 @@ public class places extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(int  uri);
+        void onFragmentInteraction(String  uri);
     }
 }

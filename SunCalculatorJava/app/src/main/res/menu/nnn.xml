@@ -13,6 +13,12 @@
 
     <item
         android:id="@+id/search"
+        android:icon="@mipmap/info"
+        android:title="@string/bb"
+        app:showAsAction="always"
+        android:visible="true"/>
+    <item
+        android:id="@+id/info"
         android:icon="@mipmap/search"
         android:title="@string/bb"
         app:showAsAction="always"
