@@ -3,7 +3,8 @@
     <string name="bb">nn</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Choose Year and Month Report</string>
+    <string name="report_here">Your Report</string>
 
     <string-array name="places_array">
         <item></item>
@@ -16,4 +17,23 @@
         <item>Darwin, -12.46,130.84</item>
         <item>Broken Hill,-31.95,141.45</item>
     </string-array>
+
+    <string-array name="month">
+
+        <item>JANUARY</item>
+        <item>FEBRUARY</item>
+        <item>MARCH</item>
+        <item>APRIL</item>
+        <item>MAY</item>
+        <item>JUNE</item>
+        <item>JULY</item>
+        <item>AUGUST</item>
+        <item>SEPTEMBER</item>
+        <item>OCTOBER</item>
+        <item>NOVEMBER</item>
+        <item>DECEMBER</item>
+
+    </string-array>
+
+    <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
 </resources>
