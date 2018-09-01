@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">A4.1P: convert all the things by Carl Chen</string>
     <string name="convert">Convert!</string>
-    <string name="mile">Mile</string>
+    <string name="mile">Number</string>
     <string name="feet">Feet</string>
     <string name="inch">Inch</string>
     <string name="metre">Metre</string>
@@ -9,4 +9,12 @@
     <string name="clear">clear</string>
     <string name="title">Imperial to Metric Convertor</string>
     <string name="title_activity_main2">Main2Activity</string>
+
+    <string-array name="convert">
+
+        <item>Mile</item>
+        <item>Foot</item>
+        <item>Inch</item>
+
+    </string-array>
 </resources>

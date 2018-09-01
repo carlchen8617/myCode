@@ -19,10 +19,19 @@
             android:layout_alignParentTop="true"
 
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="10dp"
             android:text="@string/hello_blank_fragment"
             android:textColor="@android:color/holo_orange_light"
-            android:textSize="30dp" />
+            android:textSize="18dp" />
+
+        <Spinner
+            android:id="@+id/places"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="50dp"
+            android:layout_marginTop="50dp" />
 
         <TextView
             android:id="@+id/start"
@@ -43,13 +52,7 @@
             android:inputType="date"
             android:text="2017" />
 
-        <TextView
-            android:id="@+id/end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/dat2"
-            android:layout_alignParentStart="true"
-            android:text="Month:" />
+
 
 
         <Spinner

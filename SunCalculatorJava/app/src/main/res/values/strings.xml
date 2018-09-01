@@ -3,7 +3,7 @@
     <string name="bb">nn</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Choose Year and Month Report</string>
+    <string name="hello_blank_fragment">Choose Place,Year and Month</string>
     <string name="report_here">Your Report</string>
 
     <string-array name="places_array">
@@ -17,6 +17,20 @@
         <item>Darwin, -12.46,130.84</item>
         <item>Broken Hill,-31.95,141.45</item>
     </string-array>
+
+    <string-array name="places">
+
+        <item>Sydney,-33.86,151.20</item>
+        <item>Melbourne,-37.81,144.96</item>
+        <item>Brisbane,-27.46,153.02</item>
+        <item>Adelaide,-34.92,138.60</item>
+        <item>Perth,-31.95,115.86</item>
+        <item>Hobart,-42.88,147.32</item>
+        <item>Darwin, -12.46,130.84</item>
+        <item>Broken Hill,-31.95,141.45</item>
+    </string-array>
+
+
 
     <string-array name="month">
 

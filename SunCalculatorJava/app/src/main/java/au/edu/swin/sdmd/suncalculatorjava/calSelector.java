@@ -31,6 +31,7 @@ public class calSelector extends Fragment {
     Button go;
     TextView Year;
     int sp;
+    String sp2, MonthName;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -87,6 +88,15 @@ public class calSelector extends Fragment {
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
+
+        final Spinner spinner2 = (Spinner) myv.findViewById(R.id.places);
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(myv.getContext(),
+                R.array.places, android.R.layout.simple_spinner_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner2.setAdapter(adapter2);
+
+
         go = myv.findViewById(R.id.Gobutton);
         Year =myv.findViewById(R.id.dat1);
 
@@ -95,6 +105,20 @@ public class calSelector extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 sp=spinner.getSelectedItemPosition();
+                MonthName=spinner.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { // set spinner listener
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                sp2=spinner2.getSelectedItem().toString();
             }
 
             @Override
@@ -107,7 +131,7 @@ public class calSelector extends Fragment {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 if (mListener != null) {
-                    mListener.onFragmentInteraction3(Integer.parseInt(Year.getText().toString()),  sp);
+                    mListener.onFragmentInteraction3(Integer.parseInt(Year.getText().toString()), sp, MonthName,sp2);
                 }
             }
         });
@@ -150,6 +174,6 @@ public class calSelector extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction3(int Year,int Month);
+        void onFragmentInteraction3(int Year,int Month,String  MonthName, String position);
     }
 }

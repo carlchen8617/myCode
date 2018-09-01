@@ -9,4 +9,12 @@
     <string name="clear">还原</string>
     <string name="title">英制公制变换</string>
 
+    <string-array name="convert">
+
+        <item>英里</item>
+        <item>英尺</item>
+        <item>英寸</item>
+
+    </string-array>
+
 </resources>

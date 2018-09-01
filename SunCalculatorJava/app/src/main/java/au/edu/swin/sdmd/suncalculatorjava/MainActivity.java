@@ -32,7 +32,6 @@ import au.edu.swin.sdmd.suncalculatorjava.calc.GeoLocation;
 public class MainActivity extends AppCompatActivity
         implements
         places.OnFragmentInteractionListener,
-        //  sunTimeRangeFragment.OnListFragmentInteractionListener,
         calSelector.OnFragmentInteractionListener {
 
 
@@ -165,9 +164,13 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void onFragmentInteraction3(int rptYear, int rptMonth) {
+    public void onFragmentInteraction3(int rptYear, int rptMonth, String  MonthName,String position) {
+
+        sunListA.clear();
 
         Log.d("report", "onFragmentInteraction3: " + rptYear + " " + rptMonth);
+
+        String[] placerpt = position.split(",");// process string
 
         Calendar calendar = Calendar.getInstance();
         int year = rptYear;
@@ -181,20 +184,23 @@ public class MainActivity extends AppCompatActivity
         Log.d("month days", "onFragmentInteraction3 Month: " + maxDay);
 
         TimeZone tz = TimeZone.getDefault();
-        GeoLocation geolocation = new GeoLocation(placeS, -37.813629, 144.963058, tz);
+        GeoLocation geolocation = new GeoLocation(placerpt[0], Float.parseFloat(placerpt[1]), Float.parseFloat(placerpt[2]), tz);
         AstronomicalCalendar ac = new AstronomicalCalendar(geolocation);
         sunRiseAndSet test;
+
+        test = new sunRiseAndSet(placerpt[0]  , String.valueOf(year), MonthName);
+        sunListA.add(test);
 
         for (int i = 1; i <= maxDay; i++) {
 
             ac.getCalendar().set(year, month, i);
             srise = ac.getSunrise();
             sset = ac.getSunset();
-
+            int ii=i;
 
             Log.d(rptYear + "melbourne", "Sunrise: " + srise + ", Sunset: " + sset);
 
-            test = new sunRiseAndSet("melbouren", "SunRise: "+ sdf.format(srise), "SunSet: " + sdf.format(sset));
+            test = new sunRiseAndSet(String.valueOf(ii), "SunRise: "+ sdf.format(srise), "SunSet: " + sdf.format(sset));
             sunListA.add(test);
 
         }
@@ -231,11 +237,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void onFragmentInteraction(String position) {
-        // The user selected the headline of an article from the HeadlinesFragment
-        // Do something here to display that article
+
         Log.d("yes", position);
 
-        if (!(position.isEmpty())) { // Only if message is not empty
+        if (!(position.isEmpty())) {
+            /**
+             * Only if message is not empty, minimize the fragment container view,
+             * which holds all 3 fragments
+             *
+             **/
 
             FrameLayout fl = findViewById(R.id.fragment_container);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, 0);

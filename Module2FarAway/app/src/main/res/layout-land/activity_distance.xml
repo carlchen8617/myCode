@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Distance__Activity"
+    tools:layout_editor_absoluteY="25dp">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Imperial to Metric Convertor"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/sel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="Select Units:   "
+            android:textColor="@android:color/holo_blue_dark"
+            android:textStyle="bold"
+
+            />
+
+        <Spinner
+            android:id="@+id/kind"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:layout_marginLeft="40dp"
+
+            android:layout_toRightOf="@id/sel" />
+
+
+        <TextView
+            android:id="@+id/milel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Number: "
+            android:textColor="@android:color/holo_blue_dark"
+            android:textStyle="bold"
+            android:layout_marginTop="100dp"/>
+
+        <EditText
+            android:id="@+id/mile"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:cursorVisible="false"
+            android:inputType="numberDecimal"
+            android:text="0.0"
+            android:layout_marginTop="80dp"
+            android:layout_marginLeft="40dp"
+            android:layout_toRightOf="@id/milel"/>
+
+
+        <TextView
+            android:id="@+id/result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" "
+            android:textColor="@android:color/holo_orange_dark"
+            android:textStyle="bold"
+            android:layout_below="@id/milel"
+            android:layout_marginTop="20dp"/>
+
+        <CheckBox
+            android:id="@+id/cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/result"
+            android:layout_marginTop="100dp"
+            android:text="to Metres" />
+
+        <Button
+            android:id="@+id/convert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cb"
+            android:layout_marginTop="20dp"
+            android:text="@string/convert"
+
+            />
+
+
+        <Button
+            android:id="@+id/clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/convert"
+            android:text="Clear" />
+
+
+        <Button
+            android:id="@+id/goback_dist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/convert"
+            android:layout_toRightOf="@id/clear"
+            android:text="back"
+            tools:layout_editor_absoluteX="76dp"
+            tools:layout_editor_absoluteY="283dp" />
+
+
+    </RelativeLayout>
+
+
+</android.support.constraint.ConstraintLayout>
