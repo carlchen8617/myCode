@@ -13,12 +13,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class Distance__Activity extends AppCompatActivity {
-    double mile, feet,inch,zero=0.0;
+    double feet,inch,zero=0.0;
     EditText myMile,myFeet,myInch;
     Button  myButton,myClear,goback_dis;
     CheckBox myMetre;
     int metreSet=0;
     TextView myMilel,myResult,titlel ;
+    String  mile;
 
 
 
@@ -134,7 +135,7 @@ public class Distance__Activity extends AppCompatActivity {
     }
 
     //worker private function to find conversion
-    private double findIt(int id, int unit, int metreSet){
+    private String findIt(int id, int unit, int metreSet){
 
         double result;
         EditText myEdit= findViewById(id);
@@ -147,24 +148,24 @@ public class Distance__Activity extends AppCompatActivity {
         if(unit==0)
         {
             result= originalValue * 1.6093 * 1000*100;
-            return result;
+            return String.format("%.2f", result);
         }
         else if(unit==1){
 
             result= originalValue * 0.3048 * 100;
-            return result;
+            return String.format("%.2f", result);
 
         }
         else if(unit==2){
 
             result= originalValue * 2.54;
-            return result;
+            return String.format("%.2f", result);
 
         }
         else{
 
             result=0.0;
-            return result;
+            return String.format("%.2f", result);
             }
 
             //for cm
@@ -177,24 +178,24 @@ public class Distance__Activity extends AppCompatActivity {
             if(unit==0)
             {
                 result= originalValue * 1.6093 * 1000;
-                return result;
+                return String.format("%.2f", result);
             }
             else if(unit==1){
 
                 result= originalValue * 0.3048;
-                return result;
+                return String.format("%.2f", result);
 
             }
             else if(unit==2){
 
                 result= originalValue * 2.54/100;
-                return result;
+                return String.format("%.2f", result);
 
             }
             else{
 
                 result=0.0;
-                return result;
+                return String.format("%.2f", result);
             }
 
             //for metre

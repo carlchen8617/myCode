@@ -75,8 +75,9 @@
             android:id="@+id/cb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/result"
-            android:layout_marginTop="100dp"
+
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="350dp"
             android:text="to Metres" />
 
         <Button
@@ -84,7 +85,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/cb"
-            android:layout_marginTop="20dp"
+            android:layout_marginLeft="350dp"
+
             android:text="@string/convert"
 
             />
@@ -95,6 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/convert"
+            android:layout_marginLeft="350dp"
             android:text="Clear" />
 
 

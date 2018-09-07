@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 public class Temprature_Activity extends AppCompatActivity {
 
-    TextView temp_title, FOrC;
+    TextView temp_title, FOrC, myResult;
     EditText temp;
     CheckBox check_temp;
     Button c_temp, clear_temp, goback;
@@ -33,7 +33,7 @@ public class Temprature_Activity extends AppCompatActivity {
         c_temp= findViewById(R.id.temp_convert);
         clear_temp= findViewById(R.id.temp_clear);
         goback=findViewById(R.id.goback);
-
+        myResult=findViewById(R.id.temp_re);
 
         goback.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -61,12 +61,12 @@ public class Temprature_Activity extends AppCompatActivity {
 
 
 
-                 temp.setText(String.format("%.1f", tempFind) + " "+ " F");
+                 myResult.setText(temp.getText()+ "  Celsius is " + String.format("%.1f", tempFind) + " "+ "Fahrenheit");
 
                 }
                 else{
 
-                    temp.setText(String.format("%.1f", tempFind) + " "+ " C");
+                   myResult.setText(temp.getText()+ "  Fahrenheit is " + String.format("%.1f", tempFind) + " "+ "Celsius");
                 }
 
             }
@@ -100,6 +100,19 @@ public class Temprature_Activity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+
+        //myResult.setText( myMile.getText()+ " "  + " is " + mile  + " "+ getString(R.string.metre));
+        savedInstanceState.putString("m", myResult.getText().toString());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        myResult.setText(savedInstanceState.getString("m"));
+    }
 
     private double findIt(int id, int metreSet){
 

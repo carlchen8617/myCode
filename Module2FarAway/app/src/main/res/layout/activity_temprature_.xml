@@ -35,11 +35,11 @@
 
         <EditText
             android:id="@+id/farenEdit"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
 
             android:gravity="left"
-            android:ems="5"
+
             android:inputType="numberDecimal"
             android:text="0.0" />
 
@@ -54,10 +54,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="C to F"
-
-
             />
     </TableRow>
+        <TableRow>
+
+        <TextView
+            android:id="@+id/temp-re"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/holo_orange_dark"
+            android:text=""
+            />
+    </TableRow>
+
     <TableRow>
         <Button
             android:id="@+id/temp_convert"
