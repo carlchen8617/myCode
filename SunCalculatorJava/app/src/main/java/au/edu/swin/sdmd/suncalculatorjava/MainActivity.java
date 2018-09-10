@@ -427,9 +427,9 @@ public class MainActivity extends AppCompatActivity
     private void initializeUI() {
         DatePicker dp = findViewById(R.id.datePicker);
         Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
+         year = cal.get(Calendar.YEAR);
+         month = cal.get(Calendar.MONTH);
+         day = cal.get(Calendar.DAY_OF_MONTH);
         dp.init(year, month, day, dateChangeHandler); // setup initial values and reg. handler
         updateTime(year, month, day);
     }
