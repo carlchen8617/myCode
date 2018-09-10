@@ -4,32 +4,43 @@
     <!-- "Mark Favorite", should appear as action button if possible -->
 
     <item
-        android:id="@+id/share"
         android:title="@string/bb"
+        android:id="@+id/menuSort"
         android:icon="@mipmap/share"
+        app:actionViewClass="android.widget.Spinner"
         app:showAsAction="always"
-        android:visible="true"/>
+        />
 
 
-    <item
-        android:id="@+id/search"
-        android:icon="@mipmap/info"
-        android:title="@string/bb"
-        app:showAsAction="always"
-        android:visible="true"/>
-    <item
-        android:id="@+id/info"
-        android:icon="@mipmap/search"
-        android:title="@string/bb"
-        app:showAsAction="always"
-        android:visible="true"/>
+
+       <item
+           android:id="@+id/share"
+           android:title="@string/bb"
+           android:icon="@mipmap/share"
+           app:showAsAction="always"
+           android:visible="true"/>
+
+    <!--
+
+           <item
+               android:id="@+id/search"
+               android:icon="@mipmap/info"
+               android:title="@string/bb"
+               app:showAsAction="always"
+               android:visible="true"/>
+           <item
+               android:id="@+id/info"
+               android:icon="@mipmap/search"
+               android:title="@string/bb"
+               app:showAsAction="always"
+               android:visible="true"/>
 
 
-    <!-- Settings, should always be in the overflow
-    <item android:id="@+id/action_settings"
-        android:title="@string/bb"
-        app:showAsAction="never"/>
- -->
+           Settings, should always be in the overflow
+           <item android:id="@+id/action_settings"
+               android:title="@string/bb"
+               app:showAsAction="never"/>
+        -->
 
 
 </menu>

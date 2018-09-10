@@ -30,6 +30,13 @@
         <item>Broken Hill,-31.95,141.45</item>
     </string-array>
 
+    <string-array name="menu">
+        <item>+</item>
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+
+    </string-array>
 
 
     <string-array name="month">

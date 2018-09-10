@@ -34,6 +34,9 @@ public class places extends Fragment implements Spinner.OnItemSelectedListener {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    int sp;
+    Spinner spinner;
+    String o;
 
 
     private OnFragmentInteractionListener mListener;
@@ -88,7 +91,7 @@ public class places extends Fragment implements Spinner.OnItemSelectedListener {
 
         // Inflate the layout for this fragment
         View myv = inflater.inflate(R.layout.fragment_places, container, false);
-        Spinner spinner = (Spinner) myv.findViewById(R.id.places_spinner);
+        spinner = (Spinner) myv.findViewById(R.id.places_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(myv.getContext(),
                 R.array.places_array, android.R.layout.simple_spinner_item);
@@ -114,15 +117,16 @@ public class places extends Fragment implements Spinner.OnItemSelectedListener {
         // parent.getItemAtPosition(pos)
 
 
-        String o = parent.getSelectedItem().toString();
+        o = parent.getSelectedItem().toString();
+        parent.setSelection(0); //This line took me 3 days to figure out, the fragement doesn't die, you have to kill the selection
 
 
         Log.d("ok", "oj" + o);
 
         if (o != null) { //Only send call back if the selection is not empty
             mListener.onFragmentInteraction(o);
-        }
 
+        }
 
     }
 
@@ -146,6 +150,7 @@ public class places extends Fragment implements Spinner.OnItemSelectedListener {
     @Override
     public void onDetach() {
         super.onDetach();
+        spinner.setSelection(4);
         mListener = null;
     }
 

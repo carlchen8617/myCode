@@ -98,14 +98,14 @@ public class calSelector extends Fragment {
 
 
         go = myv.findViewById(R.id.Gobutton);
-        Year =myv.findViewById(R.id.dat1);
+        Year = myv.findViewById(R.id.dat1);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { // set spinner listener
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                sp=spinner.getSelectedItemPosition();
-                MonthName=spinner.getSelectedItem().toString();
+                sp = spinner.getSelectedItemPosition();
+                MonthName = spinner.getSelectedItem().toString();
             }
 
             @Override
@@ -118,7 +118,7 @@ public class calSelector extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                sp2=spinner2.getSelectedItem().toString();
+                sp2 = spinner2.getSelectedItem().toString();
             }
 
             @Override
@@ -131,7 +131,7 @@ public class calSelector extends Fragment {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 if (mListener != null) {
-                    mListener.onFragmentInteraction3(Integer.parseInt(Year.getText().toString()), sp, MonthName,sp2);
+                    mListener.onFragmentInteraction3(Integer.parseInt(Year.getText().toString()), sp, MonthName, sp2);
                 }
             }
         });
@@ -142,7 +142,6 @@ public class calSelector extends Fragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-
 
 
     @Override
@@ -174,6 +173,6 @@ public class calSelector extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction3(int Year,int Month,String  MonthName, String position);
+        void onFragmentInteraction3(int Year, int Month, String MonthName, String position);
     }
 }

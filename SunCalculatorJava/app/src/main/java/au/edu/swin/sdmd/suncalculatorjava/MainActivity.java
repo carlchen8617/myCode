@@ -2,18 +2,26 @@ package au.edu.swin.sdmd.suncalculatorjava;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.database.DataSetObserver;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -24,6 +32,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import au.edu.swin.sdmd.suncalculatorjava.calc.AstronomicalCalendar;
 import au.edu.swin.sdmd.suncalculatorjava.calc.GeoLocation;
@@ -40,10 +49,22 @@ public class MainActivity extends AppCompatActivity
     double Longitude = 144.96;
     int year, month, day;
     Date srise, sset;
-    int subscreensOnTheStack;
+
+    Toolbar myToolbar;
+    Spinner spinner;
+    places firstFragment;
+    calSelector thirdFrag;
+    mainish mainFrag;
+    tyFragment ty;
+    FrameLayout fl;
+    LinearLayout.LayoutParams lp;
+    MenuItem item, shareit;
+    ArrayAdapter<String> adapter;
+
     private List<sunRiseAndSet> sunListA = new ArrayList<>();
 
     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,111 +73,207 @@ public class MainActivity extends AppCompatActivity
 
         // this ia needed for items to appear on the toolbar
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-
 
         initializeUI();
     }
-
 
     // this ia needed for items to appear on the toolbar
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.nnn, menu);
-        return true;
-    }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
+        //lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        //fl.setLayoutParams(lp);
 
-        FrameLayout fl = findViewById(R.id.fragment_container);
 
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        fl = findViewById(R.id.fragment_container);
+        lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         fl.setLayoutParams(lp);
-
-        places firstFragment = places.newInstance("g", "v");
+        firstFragment = places.newInstance("g", "v");
         //  sunTimeRangeFragment sndFragment = sunTimeRangeFragment.newInstance(1);
-        calSelector thirdFrag = calSelector.newInstance("g", "n");
+        thirdFrag = calSelector.newInstance("g", "n");
+        //mainish
+        mainFrag = mainish.newInstance("Sydney", -33.86, 151.20);
 
-        switch (item.getItemId()) {
+        // share
+        shareit = myToolbar.getMenu().findItem(R.id.share);
 
+        shareit.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 
-            case R.id.share:
-                // User chose the "Settings" item, show the app settings UI...
-
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                // open SMS sending activity
                 shareIt();
-                break;
+                return true;
+            }
 
-            case R.id.info:
 
-                // User chose the "Favorite" action, mark the current item
-                // as a favorite...
+        });
 
-                if (getSupportFragmentManager().findFragmentByTag("two") != null) {
-                    //if the other fragment is visible, hide it.
-                    getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("two")).commit();
+
+        item = myToolbar.getMenu().findItem(R.id.menuSort);
+        spinner = (Spinner) item.getActionView();
+        List listA = new ArrayList();
+
+        listA.add("+");
+        listA.add("Select Location");
+        listA.add("Location Report");
+
+        adapter = new ArrayAdapter<String>(this, R.layout.menu_spinner, listA) {
+
+            @Override
+            public View getDropDownView(int position, View convertView,
+                                        ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+
+                tv.setTextColor(getResources().getColor(R.color.colorWhite));
+                tv.setBackgroundColor(Color.parseColor("BLACK"));
+
+
+               /*
+                if(position%2 == 1) {
+                    // Set the item text color
+                    tv.setTextColor(Color.parseColor("#FF7C7967"));
+                    // Set the item background color
+                    tv.setBackgroundColor(Color.parseColor("#FFC3C0AA"));
+                }
+                else {
+                    // Set the alternate item text color
+                    tv.setTextColor(Color.parseColor("#FF657A86"));
+                    // Set the alternate item background color
+                    tv.setBackgroundColor(Color.parseColor("#FFB5DCE8"));
                 }
 
-                if (getSupportFragmentManager().findFragmentByTag("three") != null) {
-                    //if the other fragment is visible, hide it.
-                    getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("three")).commit();
+                */
+                return view;
+            }
+        };
+
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { // set spinner listener
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                int sp = spinner.getSelectedItemPosition();
+
+                if (sp == 1) {
+
+                    // User chose the "Favorite" action, mark the current item
+                    // as a favorite...
+
+
+                    if (getSupportFragmentManager().findFragmentByTag("two") != null) {
+                        //if the other fragment is visible, hide it.
+                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("two")).commit();
+                    }
+
+                    if (getSupportFragmentManager().findFragmentByTag("three") != null) {
+                        //if the other fragment is visible, hide it.
+                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("three")).commit();
+                    }
+                    if (getSupportFragmentManager().findFragmentByTag("four") != null) {
+                        Log.d("ggg", "find 1 ");
+                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("four")).commit();
+                    }
+                    if (getSupportFragmentManager().findFragmentByTag("five") != null) {
+                        Log.d("ggg", "find 1 ");
+                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("five")).commit();
+                    }
+
+                    if (getSupportFragmentManager().findFragmentByTag("one") != null) {
+                        Log.d("ggg", "find 1 ");
+                        getSupportFragmentManager().beginTransaction().show(getSupportFragmentManager().findFragmentByTag("one")).commit();
+                    } else {
+
+                        getSupportFragmentManager().beginTransaction().add(fl.getId(), firstFragment, "one").commit();
+                        Log.d("ggg", "add 1 ");
+                    }
+
+                } else if (sp == 2) {
+
+                    // User chose the "Favorite" action, mark the current item
+                    // as a favorite...
+
+                    if (getSupportFragmentManager().findFragmentByTag("one") != null) {
+                        //if the other fragment is visible, hide it.
+                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("one")).commit();
+                    }
+
+                    if (getSupportFragmentManager().findFragmentByTag("two") != null) {
+                        //if the other fragment is visible, hide it.
+                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("two")).commit();
+                    }
+                    if (getSupportFragmentManager().findFragmentByTag("four") != null) {
+                        Log.d("ggg", "find 1 ");
+                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("four")).commit();
+                    }
+                    if (getSupportFragmentManager().findFragmentByTag("five") != null) {
+                        Log.d("ggg", "find 1 ");
+                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("five")).commit();
+                    }
+
+                    if (getSupportFragmentManager().findFragmentByTag("three") != null) {
+                        Log.d("ggg", "find 1 ");
+                        getSupportFragmentManager().beginTransaction().show(getSupportFragmentManager().findFragmentByTag("three")).commit();
+                    } else {
+
+                        getSupportFragmentManager().beginTransaction().add(fl.getId(), thirdFrag, "three").commit();
+                        Log.d("ggg", "add 1 ");
+                    }
+
+                } else if (sp == 0) {
+
+                    if (getSupportFragmentManager().findFragmentByTag("two") != null) {
+                        //if the other fragment is visible, hide it.
+                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("two")).commit();
+                    }
+
+                    if (getSupportFragmentManager().findFragmentByTag("three") != null) {
+                        //if the other fragment is visible, hide it.
+                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("three")).commit();
+                    }
+
+                    if (getSupportFragmentManager().findFragmentByTag("one") != null) {
+                        Log.d("ggg", "find 1 ");
+                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("one")).commit();
+                    }
+                    if (getSupportFragmentManager().findFragmentByTag("five") != null) {
+                        Log.d("ggg", "find 1 ");
+                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("five")).commit();
+                    }
+                    if (getSupportFragmentManager().findFragmentByTag("four") != null) {
+                        Log.d("ggg", "find 1 ");
+                        getSupportFragmentManager().beginTransaction().show(getSupportFragmentManager().findFragmentByTag("four")).commit();
+                    } else {
+
+                        getSupportFragmentManager().beginTransaction().add(fl.getId(), mainFrag, "four").commit();
+                        Log.d("ggg", "add 1 ");
+                    }
+
+
                 }
 
-                if (getSupportFragmentManager().findFragmentByTag("one") != null) {
-                    Log.d("ggg", "find 1 ");
-                    getSupportFragmentManager().beginTransaction().show(getSupportFragmentManager().findFragmentByTag("one")).commit();
-                } else {
 
-                    getSupportFragmentManager().beginTransaction().add(fl.getId(), firstFragment, "one").commit();
-                    Log.d("ggg", "add 1 ");
-                }
+                Log.d("ok", spinner.getSelectedItem().toString());
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
+            }
+        });
 
-
-                break;
-
-
-            case R.id.search:
-
-
-                // User chose the "Favorite" action, mark the current item
-                // as a favorite...
-                if (getSupportFragmentManager().findFragmentByTag("one") != null) {
-                    //if the other fragment is visible, hide it.
-                    getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("one")).commit();
-                }
-                if (getSupportFragmentManager().findFragmentByTag("three") != null) {
-                    //if the other fragment is visible, hide it.
-                    getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("three")).commit();
-                }
-
-                if (getSupportFragmentManager().findFragmentByTag("two") != null) {
-                    Log.d("ggg", "find 2 ");
-                    getSupportFragmentManager().beginTransaction().show(getSupportFragmentManager().findFragmentByTag("two")).commit();
-                } else {
-
-                    getSupportFragmentManager().beginTransaction().add(fl.getId(), thirdFrag, "two")
-                            .commit();
-                    Log.d("ggg", "add 2 ");
-                }
-
-
-
-
-                break;
-
-
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
-
-
-        }
 
         return true;
     }
+
 
     public void onFragmentInteraction4(Uri uri) {
 
@@ -164,7 +281,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void onFragmentInteraction3(int rptYear, int rptMonth, String  MonthName,String position) {
+    public void onFragmentInteraction3(int rptYear, int rptMonth, String MonthName, String position) {
 
         sunListA.clear();
 
@@ -188,7 +305,7 @@ public class MainActivity extends AppCompatActivity
         AstronomicalCalendar ac = new AstronomicalCalendar(geolocation);
         sunRiseAndSet test;
 
-        test = new sunRiseAndSet(placerpt[0]  , String.valueOf(year), MonthName);
+        test = new sunRiseAndSet(placerpt[0], String.valueOf(year), MonthName);
         sunListA.add(test);
 
         for (int i = 1; i <= maxDay; i++) {
@@ -196,11 +313,11 @@ public class MainActivity extends AppCompatActivity
             ac.getCalendar().set(year, month, i);
             srise = ac.getSunrise();
             sset = ac.getSunset();
-            int ii=i;
+            int ii = i;
 
             Log.d(rptYear + "melbourne", "Sunrise: " + srise + ", Sunset: " + sset);
 
-            test = new sunRiseAndSet(String.valueOf(ii), "SunRise: "+ sdf.format(srise), "SunSet: " + sdf.format(sset));
+            test = new sunRiseAndSet(String.valueOf(ii), "SunRise: " + sdf.format(srise), "SunSet: " + sdf.format(sset));
             sunListA.add(test);
 
         }
@@ -220,17 +337,24 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("one")).commit();
         }
 
-        if (getSupportFragmentManager().findFragmentByTag("two") != null) {
-            //if the other fragment is visible, hide it.
-            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("two")).commit();
-        }
-
         if (getSupportFragmentManager().findFragmentByTag("three") != null) {
+            //if the other fragment is visible, hide it.
+            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("three")).commit();
+        }
+        if (getSupportFragmentManager().findFragmentByTag("four") != null) {
+            Log.d("ggg", "find 1 ");
+            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("four")).commit();
+        }
+        if (getSupportFragmentManager().findFragmentByTag("five") != null) {
+            Log.d("ggg", "find 1 ");
+            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("five")).commit();
+        }
+        if (getSupportFragmentManager().findFragmentByTag("two") != null) {
             Log.d("ggg", "find 2 ");
-            getSupportFragmentManager().beginTransaction().show(getSupportFragmentManager().findFragmentByTag("three")).commit();
+            getSupportFragmentManager().beginTransaction().show(getSupportFragmentManager().findFragmentByTag("two")).commit();
         } else {
 
-            getSupportFragmentManager().beginTransaction().add(fl.getId(), sndFragment, "three").commit();
+            getSupportFragmentManager().beginTransaction().add(fl.getId(), sndFragment, "two").commit();
             Log.d("ggg", "add 2 ");
         }
 
@@ -239,20 +363,6 @@ public class MainActivity extends AppCompatActivity
     public void onFragmentInteraction(String position) {
 
         Log.d("yes", position);
-
-        if (!(position.isEmpty())) {
-            /**
-             * Only if message is not empty, minimize the fragment container view,
-             * which holds all 3 fragments
-             *
-             **/
-
-            FrameLayout fl = findViewById(R.id.fragment_container);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, 0);
-            fl.setLayoutParams(lp);
-
-
-        }
 
         //program the calculatoion
 
@@ -264,17 +374,89 @@ public class MainActivity extends AppCompatActivity
 
             // update title
 
-            TextView lTV = findViewById(R.id.locationTV);
 
             placeS = place[0];
             Latitude = Double.parseDouble(place[1]);
             Longitude = Double.parseDouble(place[2]);
-            lTV.setText(placeS + ",AU");
 
-            initializeUI();
+
+            ty = tyFragment.newInstance(placeS, Latitude, Longitude);
+
+
+            /**
+             * Only if message is not empty, minimize the fragment container view,
+             * which holds all 3 fragments
+             *
+             **/
+
+            FrameLayout fl = findViewById(R.id.fragment_container);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            fl.setLayoutParams(lp);
+            if (getSupportFragmentManager().findFragmentByTag("two") != null) {
+                //if the other fragment is visible, hide it.
+                getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("two")).commit();
+            }
+
+            if (getSupportFragmentManager().findFragmentByTag("three") != null) {
+                //if the other fragment is visible, hide it.
+                getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("three")).commit();
+            }
+
+            if (getSupportFragmentManager().findFragmentByTag("one") != null) {
+                Log.d("ggg", "find 1 ");
+                getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("one")).commit();
+            }
+            if (getSupportFragmentManager().findFragmentByTag("four") != null) {
+                Log.d("ggg", "find 1 ");
+                getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("four")).commit();
+            }
+            if (getSupportFragmentManager().findFragmentByTag("five") != null) {
+                Log.d("ggg", "find 1 ");
+                getSupportFragmentManager().beginTransaction().show(getSupportFragmentManager().findFragmentByTag("five")).commit();
+            } else {
+
+                getSupportFragmentManager().beginTransaction().add(fl.getId(), ty, "five").commit();
+                Log.d("ggg", "add 1 ");
+            }
+
+
         }
 
     }
+
+    private void initializeUI() {
+        DatePicker dp = findViewById(R.id.datePicker);
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        dp.init(year, month, day, dateChangeHandler); // setup initial values and reg. handler
+        updateTime(year, month, day);
+    }
+
+    private void updateTime(int year, int monthOfYear, int dayOfMonth) {
+        TimeZone tz = TimeZone.getDefault();
+        GeoLocation geolocation = new GeoLocation("Melbourne", -37.50, 145.01, tz);
+        AstronomicalCalendar ac = new AstronomicalCalendar(geolocation);
+        ac.getCalendar().set(year, monthOfYear, dayOfMonth);
+        srise = ac.getSunrise();
+        sset = ac.getSunset();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+
+        TextView sunriseTV = findViewById(R.id.sunriseTimeTV);
+        TextView sunsetTV = findViewById(R.id.sunsetTimeTV);
+        Log.d("SUNRISE Unformatted", srise + "");
+
+        sunriseTV.setText(sdf.format(srise));
+        sunsetTV.setText(sdf.format(sset));
+    }
+
+    DatePicker.OnDateChangedListener dateChangeHandler = new DatePicker.OnDateChangedListener() {
+        public void onDateChanged(DatePicker dp, int year, int monthOfYear, int dayOfMonth) {
+            updateTime(year, monthOfYear, dayOfMonth);
+        }
+    };
 
 
     private void shareIt() {
@@ -292,42 +474,6 @@ public class MainActivity extends AppCompatActivity
 
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
-
-    private void initializeUI() {
-        DatePicker dp = findViewById(R.id.datePicker);
-        Calendar cal = Calendar.getInstance();
-        year = cal.get(Calendar.YEAR);
-        Log.d("year", "Year" + year);
-        month = cal.get(Calendar.MONTH);
-        Log.d("Month", "month" + month);
-        day = cal.get(Calendar.DAY_OF_MONTH);
-        Log.d("day", "day" + day);
-        dp.init(year, month, day, dateChangeHandler); // setup initial values and reg. handler
-        updateTime(year, month, day);
-    }
-
-    private void updateTime(int year, int monthOfYear, int dayOfMonth) {
-        TimeZone tz = TimeZone.getDefault();
-        GeoLocation geolocation = new GeoLocation(placeS, Latitude, Longitude, tz);
-        AstronomicalCalendar ac = new AstronomicalCalendar(geolocation);
-        ac.getCalendar().set(year, monthOfYear, dayOfMonth);
-        srise = ac.getSunrise();
-        sset = ac.getSunset();
-
-
-        TextView sunriseTV = findViewById(R.id.sunriseTimeTV);
-        TextView sunsetTV = findViewById(R.id.sunsetTimeTV);
-        Log.d("SUNRISE Unformatted", srise + "");
-
-        sunriseTV.setText(sdf.format(srise));
-        sunsetTV.setText(sdf.format(sset));
-    }
-
-    DatePicker.OnDateChangedListener dateChangeHandler = new DatePicker.OnDateChangedListener() {
-        public void onDateChanged(DatePicker dp, int year, int monthOfYear, int dayOfMonth) {
-            updateTime(year, monthOfYear, dayOfMonth);
-        }
-    };
 
 
 }
