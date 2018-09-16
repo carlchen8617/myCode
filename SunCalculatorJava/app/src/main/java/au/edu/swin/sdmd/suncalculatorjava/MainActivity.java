@@ -41,7 +41,9 @@ import au.edu.swin.sdmd.suncalculatorjava.calc.GeoLocation;
 public class MainActivity extends AppCompatActivity
         implements
         places.OnFragmentInteractionListener,
-        calSelector.OnFragmentInteractionListener {
+        calSelector.OnFragmentInteractionListener
+
+       {
 
 
     String placeS = "Melbourne";
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity
     Spinner spinner;
     places firstFragment;
     calSelector thirdFrag;
+    Mapfragment mp;
     mainish mainFrag;
     tyFragment ty;
     FrameLayout fl;
@@ -97,6 +100,7 @@ public class MainActivity extends AppCompatActivity
         //mainish
         mainFrag = mainish.newInstance("Sydney", -33.86, 151.20);
 
+
         // share
         shareit = myToolbar.getMenu().findItem(R.id.share);
 
@@ -119,7 +123,10 @@ public class MainActivity extends AppCompatActivity
 
         listA.add("+");
         listA.add("Select Location");
-        listA.add("Location Report");
+        listA.add("Monthly Report");
+        listA.add("my location");
+
+
 
         adapter = new ArrayAdapter<String>(this, R.layout.menu_spinner, listA) {
 
@@ -260,6 +267,15 @@ public class MainActivity extends AppCompatActivity
 
                 }
 
+                else if (sp == 3) {
+                    for (Fragment fragment:getSupportFragmentManager().getFragments()) {
+                        getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                    }
+
+                    launchActivity();
+
+                }
+
 
                 Log.d("ok", spinner.getSelectedItem().toString());
             }
@@ -279,6 +295,12 @@ public class MainActivity extends AppCompatActivity
 
         Log.d("report", "ok got here");
     }
+
+    public void onFragmentInteraction5(Uri uri) {
+
+        Log.d("map", "ok got here");
+    }
+
 
 
     public void onFragmentInteraction3(int rptYear, int rptMonth, String MonthName, String position) {
@@ -475,5 +497,15 @@ public class MainActivity extends AppCompatActivity
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
 
+
+
+           private void launchActivity() { //the launch worker function
+
+               Intent intent2 = new Intent(this,Mapfragment.class);
+
+               startActivity(intent2);
+
+
+           }
 
 }
