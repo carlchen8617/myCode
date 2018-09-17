@@ -41,9 +41,11 @@ import au.edu.swin.sdmd.suncalculatorjava.calc.GeoLocation;
 public class MainActivity extends AppCompatActivity
         implements
         places.OnFragmentInteractionListener,
-        calSelector.OnFragmentInteractionListener
+        calSelector.OnFragmentInteractionListener,
+        mainish.OnFragmentInteractionListener,
+        tyFragment.OnFragmentInteractionListener
 
-       {
+{
 
 
     String placeS = "Melbourne";
@@ -98,8 +100,8 @@ public class MainActivity extends AppCompatActivity
         //  sunTimeRangeFragment sndFragment = sunTimeRangeFragment.newInstance(1);
         thirdFrag = calSelector.newInstance("g", "n");
         //mainish
-        mainFrag = mainish.newInstance("Sydney", -33.86, 151.20);
-
+        mainFrag = mainish.newInstance("Sydney,AU", -33.86, 151.20);
+        mainFrag.ok("Sydney", -33.86, 151.20);
 
         // share
         shareit = myToolbar.getMenu().findItem(R.id.share);
@@ -127,7 +129,6 @@ public class MainActivity extends AppCompatActivity
         listA.add("my location");
 
 
-
         adapter = new ArrayAdapter<String>(this, R.layout.menu_spinner, listA) {
 
             @Override
@@ -137,7 +138,7 @@ public class MainActivity extends AppCompatActivity
                 TextView tv = (TextView) view;
 
                 tv.setTextColor(getResources().getColor(R.color.colorWhite));
-                tv.setBackgroundColor(Color.parseColor("BLACK"));
+                tv.setBackgroundColor(Color.parseColor("RED"));
 
 
                /*
@@ -176,99 +177,39 @@ public class MainActivity extends AppCompatActivity
                     // as a favorite...
 
 
-                    if (getSupportFragmentManager().findFragmentByTag("two") != null) {
-                        //if the other fragment is visible, hide it.
-                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("two")).commit();
+                    for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                        getSupportFragmentManager().beginTransaction().remove(fragment).commit();
                     }
 
-                    if (getSupportFragmentManager().findFragmentByTag("three") != null) {
-                        //if the other fragment is visible, hide it.
-                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("three")).commit();
-                    }
-                    if (getSupportFragmentManager().findFragmentByTag("four") != null) {
-                        Log.d("ggg", "find 1 ");
-                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("four")).commit();
-                    }
-                    if (getSupportFragmentManager().findFragmentByTag("five") != null) {
-                        Log.d("ggg", "find 1 ");
-                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("five")).commit();
-                    }
+                    getSupportFragmentManager().beginTransaction().add(fl.getId(), firstFragment, "one").commit();
+                    Log.d("ggg", "add 1 ");
 
-                    if (getSupportFragmentManager().findFragmentByTag("one") != null) {
-                        Log.d("ggg", "find 1 ");
-                        getSupportFragmentManager().beginTransaction().show(getSupportFragmentManager().findFragmentByTag("one")).commit();
-                    } else {
-
-                        getSupportFragmentManager().beginTransaction().add(fl.getId(), firstFragment, "one").commit();
-                        Log.d("ggg", "add 1 ");
-                    }
 
                 } else if (sp == 2) {
 
                     // User chose the "Favorite" action, mark the current item
                     // as a favorite...
 
-                    if (getSupportFragmentManager().findFragmentByTag("one") != null) {
-                        //if the other fragment is visible, hide it.
-                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("one")).commit();
+                    for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                        getSupportFragmentManager().beginTransaction().remove(fragment).commit();
                     }
 
-                    if (getSupportFragmentManager().findFragmentByTag("two") != null) {
-                        //if the other fragment is visible, hide it.
-                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("two")).commit();
-                    }
-                    if (getSupportFragmentManager().findFragmentByTag("four") != null) {
-                        Log.d("ggg", "find 1 ");
-                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("four")).commit();
-                    }
-                    if (getSupportFragmentManager().findFragmentByTag("five") != null) {
-                        Log.d("ggg", "find 1 ");
-                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("five")).commit();
-                    }
+                    getSupportFragmentManager().beginTransaction().add(fl.getId(), thirdFrag, "three").commit();
+                    Log.d("ggg", "add 1 ");
 
-                    if (getSupportFragmentManager().findFragmentByTag("three") != null) {
-                        Log.d("ggg", "find 1 ");
-                        getSupportFragmentManager().beginTransaction().show(getSupportFragmentManager().findFragmentByTag("three")).commit();
-                    } else {
-
-                        getSupportFragmentManager().beginTransaction().add(fl.getId(), thirdFrag, "three").commit();
-                        Log.d("ggg", "add 1 ");
-                    }
 
                 } else if (sp == 0) {
 
-                    if (getSupportFragmentManager().findFragmentByTag("two") != null) {
-                        //if the other fragment is visible, hide it.
-                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("two")).commit();
+                    for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                        getSupportFragmentManager().beginTransaction().remove(fragment).commit();
                     }
 
-                    if (getSupportFragmentManager().findFragmentByTag("three") != null) {
-                        //if the other fragment is visible, hide it.
-                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("three")).commit();
-                    }
-
-                    if (getSupportFragmentManager().findFragmentByTag("one") != null) {
-                        Log.d("ggg", "find 1 ");
-                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("one")).commit();
-                    }
-                    if (getSupportFragmentManager().findFragmentByTag("five") != null) {
-                        Log.d("ggg", "find 1 ");
-                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("five")).commit();
-                    }
-                    if (getSupportFragmentManager().findFragmentByTag("four") != null) {
-                        Log.d("ggg", "find 1 ");
-                        getSupportFragmentManager().beginTransaction().show(getSupportFragmentManager().findFragmentByTag("four")).commit();
-                    } else {
-
-                        getSupportFragmentManager().beginTransaction().add(fl.getId(), mainFrag, "four").commit();
-                        Log.d("ggg", "add 1 ");
-                    }
+                    getSupportFragmentManager().beginTransaction().add(fl.getId(), mainFrag, "four").commit();
+                    Log.d("ggg", "add 1 ");
 
 
-                }
-
-                else if (sp == 3) {
-                    for (Fragment fragment:getSupportFragmentManager().getFragments()) {
+                } else if (sp == 3) {
+                    for (Fragment fragment : getSupportFragmentManager().getFragments()) {
                         getSupportFragmentManager().beginTransaction().remove(fragment).commit();
                     }
 
@@ -300,7 +241,6 @@ public class MainActivity extends AppCompatActivity
 
         Log.d("map", "ok got here");
     }
-
 
 
     public void onFragmentInteraction3(int rptYear, int rptMonth, String MonthName, String position) {
@@ -403,7 +343,7 @@ public class MainActivity extends AppCompatActivity
 
 
             ty = tyFragment.newInstance(placeS, Latitude, Longitude);
-
+            ty.ok(placeS, Latitude, Longitude);
 
             /**
              * Only if message is not empty, minimize the fragment container view,
@@ -414,32 +354,13 @@ public class MainActivity extends AppCompatActivity
             FrameLayout fl = findViewById(R.id.fragment_container);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             fl.setLayoutParams(lp);
-            if (getSupportFragmentManager().findFragmentByTag("two") != null) {
-                //if the other fragment is visible, hide it.
-                getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("two")).commit();
+            for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
             }
-
-            if (getSupportFragmentManager().findFragmentByTag("three") != null) {
-                //if the other fragment is visible, hide it.
-                getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("three")).commit();
-            }
-
-            if (getSupportFragmentManager().findFragmentByTag("one") != null) {
-                Log.d("ggg", "find 1 ");
-                getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("one")).commit();
-            }
-            if (getSupportFragmentManager().findFragmentByTag("four") != null) {
-                Log.d("ggg", "find 1 ");
-                getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("four")).commit();
-            }
-            if (getSupportFragmentManager().findFragmentByTag("five") != null) {
-                Log.d("ggg", "find 1 ");
-                getSupportFragmentManager().beginTransaction().show(getSupportFragmentManager().findFragmentByTag("five")).commit();
-            } else {
 
                 getSupportFragmentManager().beginTransaction().add(fl.getId(), ty, "five").commit();
                 Log.d("ggg", "add 1 ");
-            }
+
 
 
         }
@@ -449,9 +370,9 @@ public class MainActivity extends AppCompatActivity
     private void initializeUI() {
         DatePicker dp = findViewById(R.id.datePicker);
         Calendar cal = Calendar.getInstance();
-         year = cal.get(Calendar.YEAR);
-         month = cal.get(Calendar.MONTH);
-         day = cal.get(Calendar.DAY_OF_MONTH);
+        year = cal.get(Calendar.YEAR);
+        month = cal.get(Calendar.MONTH);
+        day = cal.get(Calendar.DAY_OF_MONTH);
         dp.init(year, month, day, dateChangeHandler); // setup initial values and reg. handler
         updateTime(year, month, day);
     }
@@ -498,14 +419,13 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    private void launchActivity() { //the launch worker function
 
-           private void launchActivity() { //the launch worker function
+        Intent intent2 = new Intent(this, Mapfragment.class);
 
-               Intent intent2 = new Intent(this,Mapfragment.class);
-
-               startActivity(intent2);
+        startActivity(intent2);
 
 
-           }
+    }
 
 }

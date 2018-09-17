@@ -62,10 +62,7 @@
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_mapsfr">Mapfr</string>
+    <string name="title_activity_mapfragment">Map</string>
 
 
-
-
-
-
-    </resources>
+</resources>
