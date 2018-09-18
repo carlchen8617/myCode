@@ -223,7 +223,12 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+                for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                    getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                }
 
+                getSupportFragmentManager().beginTransaction().add(fl.getId(), mainFrag, "four").commit();
+                Log.d("ggg", "add 1 ");
             }
         });
 
