@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -17,7 +19,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -37,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class Mapfragment extends AppCompatActivity implements OnMapReadyCallback {
+public class mapActivity extends AppCompatActivity implements OnMapReadyCallback, weatherFragment.OnFragmentInteractionListener {
 
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationClient;
@@ -47,9 +52,14 @@ public class Mapfragment extends AppCompatActivity implements OnMapReadyCallback
     Spinner spinner;
     ArrayAdapter<String> adapter;
 
-    String st="I am at ";
+    String st = "I am at ";
     double lat, lon;
     String errorMessage = "";
+
+    FrameLayout fl;
+    LinearLayout.LayoutParams lp;
+    weatherFragment frag;
+    SupportMapFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,19 +69,28 @@ public class Mapfragment extends AppCompatActivity implements OnMapReadyCallback
         setSupportActionBar(myToolbar);
 
 
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+          mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
 
     }
 
+    public void onFragmentInteraction(Uri uri) {
+
+        Log.d("report", "ok got here");
+    }
+
 
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.nnn, menu);
+
+        fl = findViewById(R.id.fragment_container);
+        lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        fl.setLayoutParams(lp);
+        frag = weatherFragment.newInstance("g", "v");
 
         // share
         shareit = myToolbar.getMenu().findItem(R.id.share);
@@ -93,9 +112,8 @@ public class Mapfragment extends AppCompatActivity implements OnMapReadyCallback
         List listA = new ArrayList();
 
         listA.add("+");
-        listA.add("Select Location");
-        listA.add("Monthly Report");
-        listA.add("my location");
+        listA.add("local weather");
+
 
         adapter = new ArrayAdapter<String>(this, R.layout.menu_spinner, listA) {
 
@@ -133,6 +151,29 @@ public class Mapfragment extends AppCompatActivity implements OnMapReadyCallback
 
         spinner.setAdapter(adapter);
 
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { // set spinner listener
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                int sp = spinner.getSelectedItemPosition();
+
+                if (sp == 1) {
+                    launchActivity();
+
+                } else if (sp == 0) {
+
+
+                }
+
+            }
+
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                Log.d("ggg", "add 1 ");
+            }
+
+        });
+
 
         return true;
 
@@ -154,7 +195,7 @@ public class Mapfragment extends AppCompatActivity implements OnMapReadyCallback
                                 Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
 
                                 //lon = location.getLongitude();
-                               // lat= location.getLatitude();
+                                // lat= location.getLatitude();
 
                                 List<Address> addresses = null;
 
@@ -168,24 +209,20 @@ public class Mapfragment extends AppCompatActivity implements OnMapReadyCallback
                                     Address address = addresses.get(0);
                                     ArrayList<String> addressFragments = new ArrayList<String>();
 
-                                    for(int i = 0; i <= address.getMaxAddressLineIndex(); i++) {
+                                    for (int i = 0; i <= address.getMaxAddressLineIndex(); i++) {
                                         addressFragments.add(address.getAddressLine(i));
-                                        st=st + " "+ (address.getAddressLine(i).toString());
+                                        st = st + " " + (address.getAddressLine(i).toString());
                                     }
 
 
-                                        st=st + " "+ addresses.toString();
+                                    st = st + " " + addresses.toString();
 
 
-
-
-
-                                }catch (IOException ioException) {
+                                } catch (IOException ioException) {
                                     // Catch network or other I/O problems.
 
                                     Log.e("", errorMessage, ioException);
                                 }
-
 
 
                                 // Logic to handle location object
@@ -196,7 +233,6 @@ public class Mapfragment extends AppCompatActivity implements OnMapReadyCallback
             Log.d("TAG", "SE CAUGHT");
             se.printStackTrace();
         }
-
 
 
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -224,8 +260,6 @@ public class Mapfragment extends AppCompatActivity implements OnMapReadyCallback
     }
 
 
-
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -244,5 +278,13 @@ public class Mapfragment extends AppCompatActivity implements OnMapReadyCallback
         enableMyLocation();
     }
 
+    private void launchActivity() { //the launch worker function
+
+        Intent intent2 = new Intent(this, weatherActivity.class);
+
+        startActivity(intent2);
+
+
+    }
 
 }

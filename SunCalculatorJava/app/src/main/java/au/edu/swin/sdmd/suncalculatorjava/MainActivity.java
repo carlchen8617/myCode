@@ -1,14 +1,10 @@
 package au.edu.swin.sdmd.suncalculatorjava;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -21,7 +17,6 @@ import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -32,7 +27,6 @@ import java.util.List;
 import java.util.TimeZone;
 
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
 
 import au.edu.swin.sdmd.suncalculatorjava.calc.AstronomicalCalendar;
 import au.edu.swin.sdmd.suncalculatorjava.calc.GeoLocation;
@@ -58,7 +52,7 @@ public class MainActivity extends AppCompatActivity
     Spinner spinner;
     places firstFragment;
     calSelector thirdFrag;
-    Mapfragment mp;
+    mapActivity mp;
     mainish mainFrag;
     tyFragment ty;
     FrameLayout fl;
@@ -299,31 +293,13 @@ public class MainActivity extends AppCompatActivity
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         fl.setLayoutParams(lp);
 
-        if (getSupportFragmentManager().findFragmentByTag("one") != null) {
-            //if the other fragment is visible, hide it.
-            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("one")).commit();
-        }
-
-        if (getSupportFragmentManager().findFragmentByTag("three") != null) {
-            //if the other fragment is visible, hide it.
-            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("three")).commit();
-        }
-        if (getSupportFragmentManager().findFragmentByTag("four") != null) {
-            Log.d("ggg", "find 1 ");
-            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("four")).commit();
-        }
-        if (getSupportFragmentManager().findFragmentByTag("five") != null) {
-            Log.d("ggg", "find 1 ");
-            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("five")).commit();
-        }
-        if (getSupportFragmentManager().findFragmentByTag("two") != null) {
-            Log.d("ggg", "find 2 ");
-            getSupportFragmentManager().beginTransaction().show(getSupportFragmentManager().findFragmentByTag("two")).commit();
-        } else {
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+         }
 
             getSupportFragmentManager().beginTransaction().add(fl.getId(), sndFragment, "two").commit();
             Log.d("ggg", "add 2 ");
-        }
+
 
     }
 
@@ -426,7 +402,7 @@ public class MainActivity extends AppCompatActivity
 
     private void launchActivity() { //the launch worker function
 
-        Intent intent2 = new Intent(this, Mapfragment.class);
+        Intent intent2 = new Intent(this, mapActivity.class);
 
         startActivity(intent2);
 
