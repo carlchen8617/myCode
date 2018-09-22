@@ -3,6 +3,7 @@ package au.edu.swin.sdmd.suncalculatorjava;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -64,7 +65,8 @@ public class weatherFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -77,11 +79,28 @@ public class weatherFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View myv = inflater.inflate(R.layout.fragment_weather, container, false);
+        try {
+            URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q=Berlin&APPID=812cb447094b7b0eb95c777dc88ff717");
 
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+
+
+            for (String line; (line = reader.readLine()) != null; ) {
+                // System.out.println(line);
+                json = json + line;
+                Log.d("", "onCreate: "+line);
+            }
+
+        } catch (MalformedURLException e) {
+            Log.d("URL", "URL something is wrong");
+        } catch (IOException e) {
+            Log.d("IO", "IO is wrong");
+        }
 
 
 
         ww = myv.findViewById(R.id.weather);
+        ww.setText(json);
        // ww.setText(json);
         // Inflate the layout for this fragment
         return myv;

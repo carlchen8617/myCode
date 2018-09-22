@@ -29,6 +29,9 @@ import android.widget.TextView;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -42,9 +45,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class mapActivity extends AppCompatActivity implements OnMapReadyCallback, weatherFragment.OnFragmentInteractionListener {
+public class mapActivity extends AppCompatActivity implements weatherFragment.OnFragmentInteractionListener {
 
-    private GoogleMap mMap;
+    //private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationClient;
 
     Toolbar myToolbar;
@@ -59,7 +62,8 @@ public class mapActivity extends AppCompatActivity implements OnMapReadyCallback
     FrameLayout fl;
     LinearLayout.LayoutParams lp;
     weatherFragment frag;
-    SupportMapFragment mapFragment;
+    mapFragment mapfrag;
+  //  MapView gm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +71,27 @@ public class mapActivity extends AppCompatActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_mapfragment);
         myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+        fl = findViewById(R.id.fragment_container);
+        lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
+        fl.setLayoutParams(lp);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-          mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+          //mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+
+         // mapFragment.getMapAsync(this);
+
+        //  GoogleMapOptions mapOptions = new GoogleMapOptions();
+        //  mapOptions.useViewLifecycleInFragment(true);
+        //  mapFragment.newInstance(mapOptions);
+       // gm=(MapView)findViewById(R.id.mapView);
+      //  gm.onCreate(savedInstanceState);
+
+
+       // gm.getMapAsync(this);
+
+
+
 
 
     }
@@ -87,10 +106,9 @@ public class mapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         getMenuInflater().inflate(R.menu.nnn, menu);
 
-        fl = findViewById(R.id.fragment_container);
-        lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        fl.setLayoutParams(lp);
+
         frag = weatherFragment.newInstance("g", "v");
+        mapfrag = mapFragment.newInstance("g", "v");
 
         // share
         shareit = myToolbar.getMenu().findItem(R.id.share);
@@ -157,10 +175,26 @@ public class mapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                 int sp = spinner.getSelectedItemPosition();
 
-                if (sp == 1) {
-                    launchActivity();
+                if (sp == 0) {
 
-                } else if (sp == 0) {
+
+                    for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                        getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                    }
+
+
+                    getSupportFragmentManager().beginTransaction().add(fl.getId(), mapfrag, "two").commit();
+                    Log.d("ggg", "add 2 ");
+
+                } else if (sp == 1) {
+
+                    for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                        getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                    }
+
+
+                    getSupportFragmentManager().beginTransaction().add(fl.getId(), frag, "one").commit();
+                    Log.d("ggg", "add 2 ");
 
 
                 }
@@ -245,19 +279,7 @@ public class mapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
 
-    /**
-     * Enables the My Location layer if the fine location permission has been granted.
-     */
-    private void enableMyLocation() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission to access the location is missing.
-            mMap.setMyLocationEnabled(true);
-        } else if (mMap != null) {
-            // Access to the location has been granted to the app.
-            mMap.setMyLocationEnabled(true);
-        }
-    }
+
 
 
     /**
@@ -270,13 +292,8 @@ public class mapActivity extends AppCompatActivity implements OnMapReadyCallback
      * installed Google Play services and returned to the app.
      */
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        enableMyLocation();
-    }
+
 
     private void launchActivity() { //the launch worker function
 
