@@ -5,11 +5,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,6 +43,12 @@ public class weatherFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     TextView ww;
     String json;
+
+    JSONObject data;
+    String loc;
+    StringBuffer jjson;
+
+
 
     public weatherFragment() {
         // Required empty public constructor
@@ -76,20 +86,27 @@ public class weatherFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)  {
 
         View myv = inflater.inflate(R.layout.fragment_weather, container, false);
+
         try {
             URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q=Berlin&APPID=812cb447094b7b0eb95c777dc88ff717");
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
 
+          jjson = new StringBuffer(1024);
+            String tmp="";
+            while((tmp=reader.readLine())!=null)
+                jjson.append(tmp).append("\n");
+            reader.close();
 
-            for (String line; (line = reader.readLine()) != null; ) {
+          /**  for (String line; (line = reader.readLine()) != null; ) {
                 // System.out.println(line);
                 json = json + line;
                 Log.d("", "onCreate: "+line);
             }
+           */
 
         } catch (MalformedURLException e) {
             Log.d("URL", "URL something is wrong");
@@ -97,10 +114,32 @@ public class weatherFragment extends Fragment {
             Log.d("IO", "IO is wrong");
         }
 
+        try{
+             data = new JSONObject(jjson.toString());
+             loc= data.getString("name");
+             JSONObject ww= data.getJSONArray("weather").getJSONObject(0);
+
+
+
+
+
+                 loc=loc+  " "+ ww.getString("id") + " " +  ww.getString("main") + " " +  ww.getString("description");
+
+
+
+            Log.d("json", data.toString());
+
+        }
+        catch (JSONException e) {
+            Log.d("IO", "IO is wrong");
+        }
+
+
+
 
 
         ww = myv.findViewById(R.id.weather);
-        ww.setText(json);
+        ww.setText(loc);
        // ww.setText(json);
         // Inflate the layout for this fragment
         return myv;
@@ -129,6 +168,8 @@ public class weatherFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+
 
     /**
      * This interface must be implemented by activities that contain this

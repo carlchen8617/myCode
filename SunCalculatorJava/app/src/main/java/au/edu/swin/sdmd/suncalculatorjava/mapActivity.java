@@ -56,6 +56,7 @@ public class mapActivity extends AppCompatActivity implements weatherFragment.On
     ArrayAdapter<String> adapter;
 
     String st = "I am at ";
+    String[] addressT;
     double lat, lon;
     String errorMessage = "";
 
@@ -231,6 +232,8 @@ public class mapActivity extends AppCompatActivity implements weatherFragment.On
                                 //lon = location.getLongitude();
                                 // lat= location.getLatitude();
 
+                                st="I am at ";
+
                                 List<Address> addresses = null;
 
                                 try {
@@ -240,17 +243,33 @@ public class mapActivity extends AppCompatActivity implements weatherFragment.On
                                             // In this sample, get just a single address.
                                             1);
 
-                                    Address address = addresses.get(0);
+                                   // Address address = addresses.get(0);
+                                    Address address =addresses.get(0) ;
                                     ArrayList<String> addressFragments = new ArrayList<String>();
 
                                     for (int i = 0; i <= address.getMaxAddressLineIndex(); i++) {
                                         addressFragments.add(address.getAddressLine(i));
-                                        st = st + " " + (address.getAddressLine(i).toString());
+                                       st = st + " " + (address.getAddressLine(i).toString());
+
                                     }
 
 
-                                    st = st + " " + addresses.toString();
+                                   String  sst = addresses.toString();
+                                    addressT=sst.split(",");
 
+                                    st=st +" " +  " " + addressT[13].trim()+ "\n";
+                                    String v=addressT[15].trim();
+                                    st=st + v+ "\n";
+
+
+                                   // for(int i=0; i<addressT.length; i++) {
+                                   //     st=st+" " + i + " " + addressT[i]+ "\n";
+                                  //  }
+
+
+
+
+                                   // st = st + " " + addressFragments.get(1);
 
                                 } catch (IOException ioException) {
                                     // Catch network or other I/O problems.
