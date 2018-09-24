@@ -19,6 +19,7 @@ public class weatherActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
 
+
         try {
             URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q=Berlin&APPID=812cb447094b7b0eb95c777dc88ff717");
 
