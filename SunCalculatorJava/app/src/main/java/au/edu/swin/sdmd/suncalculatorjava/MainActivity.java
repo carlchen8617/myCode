@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity
     String placeS = "Melbourne";
     double Latitude = -37.81;
     double Longitude = 144.96;
+    String Country ="AU";
     int year, month, day;
     Date srise, sset;
 
@@ -117,10 +118,10 @@ public class MainActivity extends AppCompatActivity
         spinner = (Spinner) item.getActionView();
         List listA = new ArrayList();
 
-        listA.add("+");
-        listA.add("Select Location");
+        listA.add("Select");
+        listA.add("Select City");
         listA.add("Monthly Report");
-        listA.add("my location");
+        listA.add("My Location");
 
 
         adapter = new ArrayAdapter<String>(this, R.layout.menu_spinner, listA) {
@@ -304,6 +305,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void onFragmentInteraction(String position) {
+        //This method takes input from places callback and process the string.
 
         Log.d("yes", position);
 
@@ -313,7 +315,7 @@ public class MainActivity extends AppCompatActivity
 
 
             String[] place = position.split(",");// process string
-            Log.d("splited", place[0] + " " + place[1] + " " + place[2]);
+            Log.d("splited", place[0] + " " + place[1] + " " + place[2] + " " + place[3]);
 
             // update title
 
@@ -321,10 +323,10 @@ public class MainActivity extends AppCompatActivity
             placeS = place[0];
             Latitude = Double.parseDouble(place[1]);
             Longitude = Double.parseDouble(place[2]);
-
+            Country=place[3];
 
             ty = tyFragment.newInstance(placeS, Latitude, Longitude);
-            ty.ok(placeS, Latitude, Longitude);
+            ty.ok(placeS, Latitude, Longitude,Country);
 
             /**
              * Only if message is not empty, minimize the fragment container view,

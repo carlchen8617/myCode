@@ -126,8 +126,8 @@ public class weatherFragment extends Fragment {
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
                                 Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
-                               lat= Math.round(location.getLatitude()*100.0)/100.0;
-                               longt=Math.round(location.getLongitude()*100.0)/100.0;
+                               lat=location.getLatitude();
+                               longt=location.getLongitude();
                                 Log.d("", "onSuccess: "+ lat + " " +longt);
                             }
                         }

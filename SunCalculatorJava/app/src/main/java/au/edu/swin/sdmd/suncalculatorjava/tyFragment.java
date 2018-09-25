@@ -35,10 +35,12 @@ public class tyFragment extends Fragment {
     private static final String ARG_PARAM2 = "0.02";
     private static final String ARG_PARAM3 = "0.0";
 
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private double mParam2;
     private double mParam3;
+    private String mParam4;
 
     int year, month, day;
     Date srise, sset;
@@ -69,10 +71,11 @@ public class tyFragment extends Fragment {
         return fragment;
     }
 
-    public  int ok (String place, double lat, double lon) {
+    public  int ok (String place, double lat, double lon, String country) {
         mParam1=place;
         mParam2=lat;
         mParam3=lon;
+        mParam4=country;
         return 0;
 
     }
@@ -127,7 +130,7 @@ public class tyFragment extends Fragment {
 
         sunriseTV.setText(sdf.format(srise));
         sunsetTV.setText(sdf.format(sset));
-        locationTV.setText(mParam1+", AU");
+        locationTV.setText(mParam1+"," + mParam4);
     }
 
     DatePicker.OnDateChangedListener dateChangeHandler = new DatePicker.OnDateChangedListener() {
