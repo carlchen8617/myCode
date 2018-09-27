@@ -2,7 +2,10 @@ package au.edu.swin.sdmd.suncalculatorjava;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +17,20 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+
+import com.opencsv.CSVReader;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 
 /**
@@ -37,6 +54,7 @@ public class places extends Fragment implements Spinner.OnItemSelectedListener {
     int sp;
     Spinner spinner;
     String o;
+    List resultList = new ArrayList();
 
 
     private OnFragmentInteractionListener mListener;
@@ -89,12 +107,60 @@ public class places extends Fragment implements Spinner.OnItemSelectedListener {
                              Bundle savedInstanceState) {
 
 
+
+
         // Inflate the layout for this fragment
         View myv = inflater.inflate(R.layout.fragment_places, container, false);
+
+
+        File list = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString()+"/list.csv");
+        Log.d("fffffffffffffff", list.toString());
+
+        if(list.exists()){
+            Log.d("fuck", "fuck fuck fuc ");
+        }
+        else{
+            Log.d("Not fuck", "not not not  ");
+        }
+
+         try {
+             String csvLine;
+             FileInputStream fin = new FileInputStream (list);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
+             while ((csvLine = reader.readLine()) != null) {
+                 Log.d("kkkhhhh", csvLine);
+                 resultList.add(csvLine);
+
+             }
+
+         }catch(FileNotFoundException e){
+
+         }catch (IOException e){
+
+         }
+
+        try {
+
+
+            CSVReader reader = new CSVReader(new FileReader(list.getAbsolutePath()));
+
+            String[] nextLine;
+            while ((nextLine = reader.readNext()) != null) {
+                // nextLine[] is an array of values from the line
+                Log.d("BBBB", nextLine.toString());
+            }
+
+        }catch (FileNotFoundException e){
+
+        }catch (IOException e){
+
+        }
+
+
         spinner = (Spinner) myv.findViewById(R.id.places_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(myv.getContext(),
-                R.array.places_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(myv.getContext(),
+                 android.R.layout.simple_spinner_item, resultList);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
