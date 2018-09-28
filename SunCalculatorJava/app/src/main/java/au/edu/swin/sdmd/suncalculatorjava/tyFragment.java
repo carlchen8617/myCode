@@ -170,6 +170,6 @@ public class tyFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction4(Uri uri);
+        void onFragmentInteractionty(Uri uri);
     }
 }

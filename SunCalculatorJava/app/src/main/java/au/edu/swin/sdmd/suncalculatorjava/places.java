@@ -87,8 +87,7 @@ public class places extends Fragment implements Spinner.OnItemSelectedListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);

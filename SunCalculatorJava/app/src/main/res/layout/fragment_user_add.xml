@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/holo_green_dark"
+        >
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Add your location(note, make sure your entry is correct, this app does not check for correctness"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="bold"
+            tools:textSize="30dp" />
+
+
+
+        <TextView
+            android:id="@+id/place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="33dp"
+            android:layout_marginTop="117dp"
+            android:text="place" />
+
+        <EditText
+            android:id="@+id/town"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/place"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="44dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="town" />
+
+        <TextView
+            android:id="@+id/lati"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/place"
+            android:layout_marginTop="185dp"
+            android:text="Latitude" />
+
+        <EditText
+            android:id="@+id/lat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/lati"
+            android:layout_alignStart="@+id/town"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="lat" />
+
+        <TextView
+            android:id="@+id/longi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/place"
+            android:layout_marginTop="240dp"
+            android:text="Longitude" />
+
+        <EditText
+            android:id="@+id/lon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/longi"
+            android:layout_alignStart="@+id/town"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="longi" />
+
+
+        <TextView
+            android:id="@+id/timz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/place"
+
+            android:layout_marginTop="300dp"
+            android:text="Timezone" />
+
+        <EditText
+            android:id="@+id/timez"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/timz"
+            android:layout_alignStart="@+id/town"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="tz" />
+
+
+
+
+
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="87dp"
+            android:layout_marginStart="96dp"
+            android:text="OK" />
+
+
+    </RelativeLayout>
+
+
+</android.support.v4.widget.DrawerLayout>

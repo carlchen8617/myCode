@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity
         places.OnFragmentInteractionListener,
         calSelector.OnFragmentInteractionListener,
         mainish.OnFragmentInteractionListener,
-        tyFragment.OnFragmentInteractionListener
+        tyFragment.OnFragmentInteractionListener,
+        userAddFragment.OnFragmentInteractionListener
 
 {
 
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity
     mapActivity mp;
     mainish mainFrag;
     tyFragment ty;
+    userAddFragment userAddFrag;
     FrameLayout fl;
     LinearLayout.LayoutParams lp;
     MenuItem item, shareit;
@@ -99,6 +101,7 @@ public class MainActivity extends AppCompatActivity
         lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         fl.setLayoutParams(lp);
         firstFragment = places.newInstance("g", "v");
+        userAddFrag = userAddFragment.newInstance("g", "v");
         //  sunTimeRangeFragment sndFragment = sunTimeRangeFragment.newInstance(1);
         thirdFrag = calSelector.newInstance("g", "n");
         //mainish
@@ -129,6 +132,7 @@ public class MainActivity extends AppCompatActivity
         listA.add("Select City");
         listA.add("Monthly Report");
         listA.add("My Location");
+        listA.add("Find your own");
 
 
         adapter = new ArrayAdapter<String>(this, R.layout.menu_spinner, listA) {
@@ -187,7 +191,20 @@ public class MainActivity extends AppCompatActivity
                     Log.d("ggg", "add 1 ");
 
 
-                } else if (sp == 2) {
+                }
+                else if (sp == 4){
+
+                    for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                        getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                    }
+
+                    getSupportFragmentManager().beginTransaction().add(fl.getId(), userAddFrag, "seven").commit();
+                    Log.d("ggg", "add userAdd ");
+
+
+
+                }
+                else if (sp == 2) {
 
                     // User chose the "Favorite" action, mark the current item
                     // as a favorite...
@@ -239,16 +256,20 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void onFragmentInteraction4(Uri uri) {
+    public void onFragmentInteractionty(Uri uri) {
 
         Log.d("report", "ok got here");
     }
 
-    public void onFragmentInteraction5(Uri uri) {
+    public void onFragmentInteractionManish(Uri uri) {
 
         Log.d("map", "ok got here");
     }
 
+    public void onFragmentInteractionUserAdd(Uri uri) {
+
+        Log.d("map", "ok got here");
+    }
 
     public void onFragmentInteraction3(int rptYear, int rptMonth, String MonthName, String position) {
 

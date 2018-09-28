@@ -160,7 +160,7 @@ public class mainish extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction5(Uri uri);
+        void onFragmentInteractionManish(Uri uri);
     }
 }
 
