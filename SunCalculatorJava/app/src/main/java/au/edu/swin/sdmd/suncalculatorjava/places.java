@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -86,7 +87,8 @@ public class places extends Fragment implements Spinner.OnItemSelectedListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -113,48 +115,29 @@ public class places extends Fragment implements Spinner.OnItemSelectedListener {
         View myv = inflater.inflate(R.layout.fragment_places, container, false);
 
 
+
         File list = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString()+"/list.csv");
         Log.d("fffffffffffffff", list.toString());
 
-        if(list.exists()){
-            Log.d("fuck", "fuck fuck fuc ");
-        }
-        else{
-            Log.d("Not fuck", "not not not  ");
-        }
+        if(list.exists()) {
 
-         try {
-             String csvLine;
-             FileInputStream fin = new FileInputStream (list);
-             BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
-             while ((csvLine = reader.readLine()) != null) {
-                 Log.d("kkkhhhh", csvLine);
-                 resultList.add(csvLine);
+            try {
+                String csvLine;
+                FileInputStream fin = new FileInputStream(list);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
+                while ((csvLine = reader.readLine()) != null) {
+                    Log.d("kkkhhhh", csvLine);
+                    resultList.add(csvLine);
 
-             }
+                }
 
-         }catch(FileNotFoundException e){
+            } catch (FileNotFoundException e) {
 
-         }catch (IOException e){
+            } catch (IOException e) {
 
-         }
-
-        try {
-
-
-            CSVReader reader = new CSVReader(new FileReader(list.getAbsolutePath()));
-
-            String[] nextLine;
-            while ((nextLine = reader.readNext()) != null) {
-                // nextLine[] is an array of values from the line
-                Log.d("BBBB", nextLine.toString());
             }
-
-        }catch (FileNotFoundException e){
-
-        }catch (IOException e){
-
         }
+
 
 
         spinner = (Spinner) myv.findViewById(R.id.places_spinner);
@@ -184,12 +167,14 @@ public class places extends Fragment implements Spinner.OnItemSelectedListener {
 
 
         o = parent.getSelectedItem().toString();
+        int selected =parent.getSelectedItemPosition();
+
         parent.setSelection(0); //This line took me 3 days to figure out, the fragement doesn't die, you have to kill the selection
 
 
         Log.d("ok", "oj" + o);
 
-        if (o != null) { //Only send call back if the selection is not empty
+        if (o != null && selected != 0) { //Only send call back if the selection is not empty
             mListener.onFragmentInteraction(o);
 
         }
