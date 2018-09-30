@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,7 +109,7 @@ public class places extends Fragment implements Spinner.OnItemSelectedListener {
                              Bundle savedInstanceState) {
 
 
-
+        resultList.clear();
 
         // Inflate the layout for this fragment
         View myv = inflater.inflate(R.layout.fragment_places, container, false);
@@ -118,11 +119,16 @@ public class places extends Fragment implements Spinner.OnItemSelectedListener {
         File list = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString()+"/list.csv");
         Log.d("fffffffffffffff", list.toString());
 
-        if(list.exists()) {
+
 
             try {
                 String csvLine;
-                FileInputStream fin = new FileInputStream(list);
+               // FileInputStream fin = new FileInputStream(list);
+
+                Log.d("kkk", getContext().getFilesDir().toString());
+
+                FileInputStream fin =myv.getContext().openFileInput("list.csv");
+
                 BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
                 while ((csvLine = reader.readLine()) != null) {
                     Log.d("kkkhhhh", csvLine);
@@ -130,12 +136,14 @@ public class places extends Fragment implements Spinner.OnItemSelectedListener {
 
                 }
 
+                fin.close();
+
             } catch (FileNotFoundException e) {
 
             } catch (IOException e) {
 
             }
-        }
+
 
 
 

@@ -20,7 +20,7 @@
             android:text="Add your location(note, make sure your entry is correct, this app does not check for correctness"
             android:textColor="@android:color/holo_red_dark"
             android:textStyle="bold"
-            tools:textSize="30dp" />
+            tools:textSize="50dp" />
 
 
 
@@ -105,7 +105,15 @@
             android:text="tz" />
 
 
+        <TextView
+            android:id="@+id/againV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/place"
 
+            android:layout_marginTop="400dp"
+            android:text="" />
 
 
 

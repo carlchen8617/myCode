@@ -1,15 +1,20 @@
 package au.edu.swin.sdmd.suncalculatorjava;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,6 +26,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import static android.content.Context.CONTEXT_IGNORE_SECURITY;
+import static android.content.Context.MODE_APPEND;
 
 
 /**
@@ -44,8 +52,12 @@ public class userAddFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     Button go;
     EditText town, lat, lon, tz;
-    String townStr, latStr, lonStr, tzStr, addIn;
+    String townStr, latStr, lonStr, tzStr, addIn, addClaim;
+    int addTimes;
+    TextView againView;
     List resultList = new ArrayList();
+    boolean goAhead;
+    AlertDialog.Builder builder;
 
 
     public userAddFragment() {
@@ -85,72 +97,166 @@ public class userAddFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View myv= inflater.inflate(R.layout.fragment_user_add, container, false);
-               go= myv.findViewById(R.id.button);
-               town= myv.findViewById(R.id.town);
-               lat= myv.findViewById(R.id.lat);
-               lon= myv.findViewById(R.id.lon);
-               tz= myv.findViewById(R.id.timez);
-
-                go.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-
-                        townStr=town.getText().toString();
-                        latStr=lat.getText().toString();
-                        lonStr=lon.getText().toString();
-                        tzStr=tz.getText().toString();
-
-                        addIn=townStr +"," + latStr +"," + lonStr +"," + tzStr;
-
-                        Log.d("lol", addIn);
+        addTimes=0;
 
 
-                        File list = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString()+"/list.csv");
-                        Log.d("fffffffffffffff", list.toString());
 
-                        if(list.exists())
+        final View myv = inflater.inflate(R.layout.fragment_user_add, container, false);
+        go = myv.findViewById(R.id.button);
+        town = myv.findViewById(R.id.town);
+        lat = myv.findViewById(R.id.lat);
+        lon = myv.findViewById(R.id.lon);
+        tz = myv.findViewById(R.id.timez);
+        againView = myv.findViewById(R.id.againV);
+
+
+       /**
+        initial add
+
+        String csvLine;
+        File list = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString() + "/list.csv");
+        Log.d("fffffffffffffff", list.toString());
+
+        try {
+            FileInputStream fin = new FileInputStream(list);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
+            FileOutputStream fout = myv.getContext().openFileOutput("list.csv",Context.MODE_APPEND);
+            while ((csvLine = reader.readLine()) != null) {
+                Log.d("kkkhhhh", csvLine);
+                csvLine=csvLine+"\n";
+                fout.write(csvLine.getBytes());
+
+            }
+
+            fin.close();
+            fout.close();
+        }catch (FileNotFoundException e){
+
+        }catch (IOException e){
+
+        }
+        **/
+
+        final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        Log.d("dssds", "addOK ");
+                        goAhead=true;
+                        addTimes++;
+                        try{
+                        addClaim = "You have add " + addTimes + " entry to the database, you can add again";
+                        againView.setText(addClaim);
+                        Log.d("kadd", getContext().getFilesDir().toString());
+
+                        // FileOutputStream fout = new FileOutputStream(list);
+                        FileOutputStream fout = myv.getContext().openFileOutput("list.csv",Context.MODE_APPEND);
+
+
+                        fout.write(addIn.getBytes());
 
                         /**
-                        Iterator<String> iterator = resultList.iterator();
-                        while (iterator.hasNext()) {
-                            Log.d("", iterator.next());
-                        }
-                        **/
+                         Iterator<String> iterator = resultList.iterator();
+                         while (iterator.hasNext()) {
+                         Log.d("", iterator.next());
+                         fout.write(iterator.next().getBytes());
+                         }
+                         ***/
+                        fout.close();
+                        goAhead=false;
 
-                            try {
+                } catch (FileNotFoundException e) {
 
-                                FileOutputStream fout = new FileOutputStream(list);
+                } catch (IOException e) {
 
-                                Iterator<String> iterator = resultList.iterator();
-                                while (iterator.hasNext()) {
-                                  fout.write(iterator.next().toString().getBytes());
-                                }
-
-                                fout.close();
-
-                            } catch (FileNotFoundException e) {
-
-                            } catch (IOException e) {
-
-                            }
+                }
 
 
-                        // Code here executes on main thread after user presses button
-                        if (mListener != null) {
 
-                        }
-                    }
-                });
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+
+
+
+        go.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+
+                townStr = town.getText().toString();
+                latStr = lat.getText().toString();
+                lonStr = lon.getText().toString();
+                tzStr = tz.getText().toString();
+
+                addIn = townStr + "," + latStr + "," + lonStr + "," + tzStr +"\n";
+
+                Log.d("lol", addIn);
+                goAhead=false;
+                builder=new  AlertDialog.Builder(myv.getContext());
+
+                builder.setMessage("Double check all information entered are correct, the App might crash if wrong information are entered, Proceed?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
+                /**
+                if(goAhead){
+
+
+                addTimes++;
+
+
+                 Iterator<String> iterator = resultList.iterator();
+                 while (iterator.hasNext()) {
+                 Log.d("", iterator.next());
+                 }
+
+
+                try {
+
+                    addClaim = "You have add " + addTimes + " entry to the database, you can add again";
+                    againView.setText(addClaim);
+                    Log.d("kadd", getContext().getFilesDir().toString());
+
+                   // FileOutputStream fout = new FileOutputStream(list);
+                    FileOutputStream fout = myv.getContext().openFileOutput("list.csv",Context.MODE_APPEND);
+
+
+                    fout.write(addIn.getBytes());
+
+
+                     Iterator<String> iterator = resultList.iterator();
+                     while (iterator.hasNext()) {
+                     Log.d("", iterator.next());
+                     fout.write(iterator.next().getBytes());
+                     }
+
+                    fout.close();
+                    goAhead=false;
+
+                } catch (FileNotFoundException e) {
+
+                } catch (IOException e) {
+
+                }
+
+                }
+                **/
+
+                // Code here executes on main thread after user presses button
+                if (mListener != null) {
+
+                }
+            }
+        });
         // Inflate the layout for this fragment
         return myv;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteractionUserAdd(uri);
-        }
-    }
+
 
 
 
