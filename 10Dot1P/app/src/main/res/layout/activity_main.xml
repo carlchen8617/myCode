@@ -20,7 +20,8 @@
             android:text="Hello World!"
             android:layout_alignParentTop="true"
             android:layout_marginTop="185dp"
-            android:layout_marginLeft="200dp"/>
+            android:textSize="26sp"
+            android:layout_marginLeft="170dp"/>
 
 
 

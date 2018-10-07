@@ -28,6 +28,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -127,8 +128,8 @@ public class places extends Fragment implements Spinner.OnItemSelectedListener {
 
                 Log.d("kkk", getContext().getFilesDir().toString());
 
-                FileInputStream fin =myv.getContext().openFileInput("list.csv");
-
+               // FileInputStream fin =myv.getContext().openFileInput("list.csv");
+                InputStream fin =myv.getContext().getResources().openRawResource(R.raw.list);
                 BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
                 while ((csvLine = reader.readLine()) != null) {
                     Log.d("kkkhhhh", csvLine);

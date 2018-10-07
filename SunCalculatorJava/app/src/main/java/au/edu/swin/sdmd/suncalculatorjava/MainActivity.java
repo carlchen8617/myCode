@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity
         // share
         shareit = myToolbar.getMenu().findItem(R.id.share);
 
+
         shareit.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 
             @Override

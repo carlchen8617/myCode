@@ -1,5 +1,6 @@
 package edu.swin.student.carl.a10dot1p;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         go.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                new asyncc().execute(3);
+                new asyncc().execute(20);
 
 
 
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
        protected void onProgressUpdate(Integer... progress) {
+            status.setTextColor(Color.rgb(255,0,0));
            status.setText( progress[0].toString());
        }
     }
