@@ -36,7 +36,7 @@
 
             <android.support.v7.widget.AppCompatImageView
                 android:layout_width="80dp"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="280dp"
 
