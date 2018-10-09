@@ -1,15 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".student">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/act"
+    android:orientation="vertical" android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
-<TextView
-    android:id="@+id/idm"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text=""/>
 
-</android.support.constraint.ConstraintLayout>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/colorBlack"
+            android:elevation="4dp"
+            android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+            />
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_alignParentTop="true"
+
+                android:gravity="right"
+                android:src="@mipmap/swinlogo_f" />
+
+
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="280dp"
+
+                android:src="@mipmap/lib_f" />
+
+
+
+
+
+        </android.support.v7.widget.Toolbar>
+
+
+
+
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            />
+
+        <TextView
+            android:id="@+id/idm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:layout_marginTop="300dp"
+            android:text=""/>
+
+
+</LinearLayout>

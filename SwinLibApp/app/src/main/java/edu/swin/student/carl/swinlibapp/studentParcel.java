@@ -6,6 +6,7 @@ import android.os.Parcelable;
 class studentParcel implements Parcelable {
 
     String Name;
+    String id;
 
     public int describeContents() {
         return 0;
@@ -16,14 +17,17 @@ class studentParcel implements Parcelable {
 
     }
 
-    public studentParcel(String id){
+    public studentParcel(String name, String id){
 
-        this.Name=id;
+        this.Name=name;
+        this.id=id;
     }
 
     protected studentParcel(Parcel in) {
 
         this.Name=in.readString();
+        this.id=in.readString();
+
     }
 
     public static final Parcelable.Creator<studentParcel> CREATOR = new Parcelable.Creator<studentParcel>() {

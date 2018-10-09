@@ -27,6 +27,7 @@
         <activity
             android:name=".student"
             android:label="@string/title_activity_student"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".staff"></activity>
     </application>

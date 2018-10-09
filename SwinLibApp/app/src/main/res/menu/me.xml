@@ -2,15 +2,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- "Mark Favorite", should appear as action button if possible -->
-
-
-
-
-
-
     <item
         android:title="bb"
         android:id="@+id/menuSort"
+        app:actionViewClass="android.widget.Spinner"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:title="bbs"
+        android:id="@+id/menustu"
         app:actionViewClass="android.widget.Spinner"
         app:showAsAction="always"
         />

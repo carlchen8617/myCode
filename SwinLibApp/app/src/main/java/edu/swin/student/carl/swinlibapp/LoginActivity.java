@@ -266,7 +266,7 @@ public class LoginActivity extends AppCompatActivity  {
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 3;
     }
 
     /**
@@ -321,12 +321,14 @@ public class LoginActivity extends AppCompatActivity  {
 
         private final String mEmail;
         private final String mPassword;
+        private String mName;
         private final Integer mtypi;
 
 
         UserLoginTask(String email, String password, Integer typi) {
             mEmail = email;
             mPassword = password;
+            mName="";
             mtypi=typi;
         }
 
@@ -364,9 +366,9 @@ public class LoginActivity extends AppCompatActivity  {
                     while ((csvLine = reader.readLine()) != null) {
                         Log.d("bbbbhhhh!!!!!!!!!!!!!!", csvLine);
                         String[] logintest = csvLine.split(",");
-                        if((logintest[0].trim()).equals(mEmail.trim())   && (logintest[1].trim()).equals( mPassword.trim()) ){
+                        if((logintest[0].trim()).equals(mEmail.trim())   && (logintest[2].trim()).equals( mPassword.trim()) ){
                             Log.d("ok", "login OK!!!!!!!!!!!!!!!!!!!!!!!!!!!! ");
-
+                            mName=logintest[1].trim();
                             return true;
 
                         }
@@ -403,7 +405,7 @@ public class LoginActivity extends AppCompatActivity  {
             showProgress(false);
 
             if (success) {
-                launchActivity(mEmail.trim(),mtypi);
+                launchActivity(mName,mEmail,mtypi);
                 Log.d("OK", "successful!!!!!!!!!!!!!!!!!!!!! ");
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -418,13 +420,14 @@ public class LoginActivity extends AppCompatActivity  {
         }
     }
 
-    private void launchActivity(String id, int type ) { //the launch worker function
+    private void launchActivity(String name, String id, int type ) { //the launch worker function
 
         if(type==0)
         {
-            studentParcel student= new studentParcel(id);
+            studentParcel student= new studentParcel(name,id);
             Intent intent = new Intent(this, student.class);
             intent.putExtra("id", student);
+
             startActivity(intent);
 
         }
