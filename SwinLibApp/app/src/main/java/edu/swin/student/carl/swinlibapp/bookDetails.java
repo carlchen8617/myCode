@@ -4,10 +4,20 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -27,6 +37,17 @@ public class bookDetails extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    String bkID;
+    TextView title;
+    TextView author;
+    TextView publisher;
+    TextView datey;
+    TextView isbnten;
+    TextView isbenthirteen;
+    TextView avail;
+    String[] place;
+    int ctr=0;
+    List<String> resultList = new ArrayList<String>();
 
     private OnFragmentInteractionListener mListener;
 
@@ -52,6 +73,11 @@ public class bookDetails extends Fragment {
         return fragment;
     }
 
+    public void getBookID(String id){
+        this.bkID=id;
+
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +91,63 @@ public class bookDetails extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_book_details, container, false);
+
+        View myv=inflater.inflate(R.layout.fragment_book_details, container, false);
+        title=myv.findViewById(R.id.titleName);
+        author=myv.findViewById(R.id.authorName);
+        publisher=myv.findViewById(R.id.pubName);
+        datey=myv.findViewById(R.id.dateName);
+        isbnten=myv.findViewById(R.id.isbn10Name);
+        isbenthirteen=myv.findViewById(R.id.isbn13Name);
+        avail=myv.findViewById(R.id.availName);
+
+        try {
+            String csvLine;
+
+            // FileInputStream fin = new FileInputStream(list);
+
+            Log.d("kkk", getContext().getFilesDir().toString());
+
+            // FileInputStream fin =myv.getContext().openFileInput("list.csv");
+            InputStream fin =myv.getContext().getResources().openRawResource(R.raw.bookdb);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
+
+            while ((csvLine = reader.readLine()) != null) {
+
+                Log.d("kkkhhhh", String.valueOf(ctr)+csvLine);
+
+                resultList.add(csvLine);
+
+                //Log.d("kkkhhhh", csvLine);
+
+            }
+
+            fin.close();
+
+        } catch (FileNotFoundException e) {
+
+        } catch (IOException e) {
+
+        }
+
+        place=resultList.get(Integer.parseInt(bkID)).split(",");
+
+        for(int g=0; g < resultList.size(); g++){
+
+            Log.d("counter!!!!!!!", resultList.get(g));
+        }
+
+
+        title.setText(place[1]);
+        author.setText(place[2]);
+        publisher.setText(place[3]);
+        datey.setText(place[4]);
+        isbnten.setText(place[5]);
+        isbenthirteen.setText(place[6]);
+        avail.setText(place[7]);
+
+
+        return myv;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

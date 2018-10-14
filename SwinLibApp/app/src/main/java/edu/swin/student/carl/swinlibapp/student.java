@@ -25,7 +25,8 @@ import java.util.List;
 
 public class student extends AppCompatActivity  implements
         bookBrowse.OnFragmentInteractionListener,
-        bookDetails.OnFragmentInteractionListener {
+        bookDetails.OnFragmentInteractionListener,
+        bookOrder.OnFragmentInteractionListener{
 
     private String id;
     TextView hello;
@@ -38,6 +39,7 @@ public class student extends AppCompatActivity  implements
     LinearLayout.LayoutParams lp;
     bookBrowse bookBrowseFrag;
     bookDetails bookDetailsFrag;
+    bookOrder bookOrderFrag;
 
 
     @Override
@@ -62,15 +64,18 @@ public class student extends AppCompatActivity  implements
 
 
         bookBrowseFrag = bookBrowse.newInstance("g", "v");
+        bookOrderFrag = bookOrder.newInstance("g", "v");
 
 
         item = myToolbar.getMenu().findItem(R.id.menustu);
         spinner = (Spinner) item.getActionView();
         List listA = new ArrayList();
 
+        listA.add("Select");
         listA.add("Borrow a book");
         listA.add("View my details");
         listA.add("Change password");
+        listA.add("Book not in database");
 
         adapter = new ArrayAdapter<String>(this, R.layout.memu_spinner, listA) {
 
@@ -98,11 +103,13 @@ public class student extends AppCompatActivity  implements
 
                 int sp = spinner.getSelectedItemPosition();
 
-                fl = findViewById(R.id.fragment_container);
-                lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                fl.setLayoutParams(lp);
 
                 if (sp == 1) {
+
+                    fl = findViewById(R.id.fragment_container);
+                    lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                    fl.setLayoutParams(lp);
+
 
                     for (Fragment fragment : getSupportFragmentManager().getFragments()) {
                         getSupportFragmentManager().beginTransaction().remove(fragment).commit();
@@ -128,6 +135,29 @@ public class student extends AppCompatActivity  implements
                     Log.d("DDD", "onItemSelected: 3!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
                 }
+                else if (sp == 3){
+
+
+                    Log.d("DDD", "onItemSelected: 3!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+                }
+                else if (sp == 4){
+
+                    fl = findViewById(R.id.fragment_container);
+                    lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                    fl.setLayoutParams(lp);
+
+                    for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                        getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                    }
+
+                    getSupportFragmentManager().beginTransaction().add(fl.getId(), bookOrderFrag, "three").commit();
+
+
+
+                    Log.d("DDD", "onItemSelected: 3!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+                }
             }
 
 
@@ -146,6 +176,10 @@ public class student extends AppCompatActivity  implements
 
     }
 
+    public void onFragmentInteractionOrder(Uri position) {
+
+    }
+
     public void onFragmentInteractionBookBrowse(String position) {
         Log.d("report", "ok got here");
 
@@ -156,7 +190,7 @@ public class student extends AppCompatActivity  implements
                     + " " + place[4] + " " + place[5] + " " + place[6] + " " + place[7]  );
 
             bookDetailsFrag = bookDetails.newInstance("g", "v");
-
+            bookDetailsFrag.getBookID(place[0]);
             fl = findViewById(R.id.fragment_container);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             fl.setLayoutParams(lp);

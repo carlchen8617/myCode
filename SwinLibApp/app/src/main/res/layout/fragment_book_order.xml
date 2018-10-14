@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".bookDetails">
+
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_marginTop="50dp">
+
+
+
+          <TextView
+              android:id="@+id/iten"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textSize="20dp"
+              android:layout_marginLeft="20dp"
+              android:text="ISBN Number: " />
+
+          <EditText
+              android:id="@+id/nnn"
+              android:layout_width="200dp"
+              android:layout_height="wrap_content"
+              android:text="9781925685329"
+              android:layout_alignBaseline="@+id/iten"
+              android:layout_marginLeft="150dp"
+
+
+
+              />
+
+
+
+  </RelativeLayout>
+
+    <Button
+        android:id="@+id/search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        android:layout_gravity="center"
+        android:layout_marginTop="60dp"/>
+    <TableLayout
+        android:id="@+id/bookinfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="120dp">
+
+
+        <TableRow>
+            <TextView
+                android:id="@+id/titleN"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Book name: " />
+
+            <TextView
+                android:id="@+id/titlemem"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=" " />
+
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/author"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Author: " />
+
+
+            <TextView
+                android:id="@+id/authorName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+        </TableRow>
+
+
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/pub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Publisher: " />
+
+
+            <TextView
+                android:id="@+id/pubName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/datey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Publish date:" />
+
+
+            <TextView
+                android:id="@+id/dateName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+        </TableRow>
+
+        <TableRow>
+
+
+            <TextView
+                android:id="@+id/isbn10"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Category" />
+
+            <TextView
+                android:id="@+id/isbn10Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+        </TableRow>
+
+        <TableRow>
+
+
+            <TextView
+                android:id="@+id/PageCount"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Language:" />
+
+            <TextView
+                android:id="@+id/isbn13Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/ratingN"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Average rating: " />
+
+            <TextView
+                android:id="@+id/rating"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=" " />
+
+
+
+        </TableRow>
+
+        <TableRow>
+
+
+            <TextView
+                android:id="@+id/avail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Status:" />
+
+            <TextView
+                android:id="@+id/availName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+        </TableRow>
+
+    </TableLayout>
+
+
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="borrow?"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"/>
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+
+
+</FrameLayout>
