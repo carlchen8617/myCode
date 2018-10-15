@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,8 +43,8 @@ public class bookDetails extends Fragment {
     TextView author;
     TextView publisher;
     TextView datey;
-    TextView isbnten;
-    TextView isbenthirteen;
+    TextView cate;
+    TextView isbenthirteen, lang;
     TextView avail;
     String[] place;
     int ctr=0;
@@ -97,7 +98,8 @@ public class bookDetails extends Fragment {
         author=myv.findViewById(R.id.authorName);
         publisher=myv.findViewById(R.id.pubName);
         datey=myv.findViewById(R.id.dateName);
-        isbnten=myv.findViewById(R.id.isbn10Name);
+        cate=myv.findViewById(R.id.cateName);
+        lang=myv.findViewById(R.id.langlName);
         isbenthirteen=myv.findViewById(R.id.isbn13Name);
         avail=myv.findViewById(R.id.availName);
 
@@ -108,15 +110,16 @@ public class bookDetails extends Fragment {
 
             Log.d("kkk", getContext().getFilesDir().toString());
 
-            // FileInputStream fin =myv.getContext().openFileInput("list.csv");
-            InputStream fin =myv.getContext().getResources().openRawResource(R.raw.bookdb);
+            FileInputStream fin =myv.getContext().openFileInput("bookdb.csv");
+
+           // InputStream fin =myv.getContext().getResources().openRawResource(R.raw.bookdb);
             BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
 
             while ((csvLine = reader.readLine()) != null) {
 
-                Log.d("kkkhhhh", String.valueOf(ctr)+csvLine);
+                Log.d("kkkhhhh", csvLine);
 
-                resultList.add(csvLine);
+                resultList.add(csvLine.toString());
 
                 //Log.d("kkkhhhh", csvLine);
 
@@ -138,12 +141,13 @@ public class bookDetails extends Fragment {
         }
 
 
-        title.setText(place[1]);
-        author.setText(place[2]);
-        publisher.setText(place[3]);
-        datey.setText(place[4]);
-        isbnten.setText(place[5]);
-        isbenthirteen.setText(place[6]);
+        title.setText(place[0]);
+        author.setText(place[1]);
+        publisher.setText(place[2]);
+        datey.setText(place[3]);
+        cate.setText(place[4]);
+        isbenthirteen.setText(place[5]);
+        lang.setText(place[6]);
         avail.setText(place[7]);
 
 

@@ -83,13 +83,13 @@
 
 
            <TextView
-               android:id="@+id/isbn10"
+               android:id="@+id/cate"
                android:layout_width="match_parent"
                android:layout_height="match_parent"
-               android:text="ISBNs-10:" />
+               android:text="Category:" />
 
            <TextView
-               android:id="@+id/isbn10Name"
+               android:id="@+id/cateName"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:text="TextView" />
@@ -103,10 +103,27 @@
                android:id="@+id/isbn13"
                android:layout_width="match_parent"
                android:layout_height="match_parent"
-               android:text="ISBNs-13" />
+               android:text="ISBN:" />
 
            <TextView
                android:id="@+id/isbn13Name"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="TextView" />
+
+       </TableRow>
+
+       <TableRow>
+
+
+           <TextView
+               android:id="@+id/lang"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:text="Language:" />
+
+           <TextView
+               android:id="@+id/langlName"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:text="TextView" />

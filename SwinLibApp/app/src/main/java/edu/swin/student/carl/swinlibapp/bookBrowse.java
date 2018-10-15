@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,6 +41,7 @@ public class bookBrowse extends Fragment implements Spinner.OnItemSelectedListen
     private String mParam2;
     Spinner spinner;
     String o;
+    int r;
     List resultList = new ArrayList();
 
 
@@ -91,8 +93,8 @@ public class bookBrowse extends Fragment implements Spinner.OnItemSelectedListen
 
             Log.d("kkk", getContext().getFilesDir().toString());
 
-            // FileInputStream fin =myv.getContext().openFileInput("list.csv");
-            InputStream fin =myv.getContext().getResources().openRawResource(R.raw.bookdb);
+             FileInputStream fin =myv.getContext().openFileInput("bookdb.csv");
+            //InputStream fin =myv.getContext().getResources().openRawResource(R.raw.bookdb);
             BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
             while ((csvLine = reader.readLine()) != null) {
                 Log.d("kkkhhhh", csvLine);
@@ -131,6 +133,7 @@ public class bookBrowse extends Fragment implements Spinner.OnItemSelectedListen
 
         o = parent.getSelectedItem().toString();
         int selected =parent.getSelectedItemPosition();
+        r=selected;
 
         parent.setSelection(0); //This line took me 3 days to figure out, the fragement doesn't die, you have to kill the selection
 
@@ -138,7 +141,7 @@ public class bookBrowse extends Fragment implements Spinner.OnItemSelectedListen
         Log.d("ok", "oj" + o);
 
         if (o != null && selected != 0) { //Only send call back if the selection is not empty
-            mListener.onFragmentInteractionBookBrowse(o);
+            mListener.onFragmentInteractionBookBrowse(o, r);
 
         }
 
@@ -177,6 +180,6 @@ public class bookBrowse extends Fragment implements Spinner.OnItemSelectedListen
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteractionBookBrowse(String uri);
+        void onFragmentInteractionBookBrowse(String uri,int row);
     }
 }

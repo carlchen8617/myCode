@@ -180,7 +180,7 @@ public class student extends AppCompatActivity  implements
 
     }
 
-    public void onFragmentInteractionBookBrowse(String position) {
+    public void onFragmentInteractionBookBrowse(String position, int row) {
         Log.d("report", "ok got here");
 
         if (!(position.isEmpty())) {
@@ -190,7 +190,7 @@ public class student extends AppCompatActivity  implements
                     + " " + place[4] + " " + place[5] + " " + place[6] + " " + place[7]  );
 
             bookDetailsFrag = bookDetails.newInstance("g", "v");
-            bookDetailsFrag.getBookID(place[0]);
+            bookDetailsFrag.getBookID(Integer.toString(row));
             fl = findViewById(R.id.fragment_container);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             fl.setLayoutParams(lp);

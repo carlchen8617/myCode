@@ -2,6 +2,7 @@ package edu.swin.student.carl.swinlibapp;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
@@ -9,23 +10,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.nio.file.Files;
 import java.util.List;
-
-import com.google.gson.*;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,16 +60,16 @@ public class bookOrder extends Fragment {
     TextView rating;
     TextView isbnthirteen;
     TextView avail;
+    TextView noorder;
     EditText isbn;
-    Button searchb;
-    String[] place;
+    Button searchb,order;
+    String addTodatbase;
     JSONObject root;
-    JSONArray book;
+    OutputStream fout;
+
     boolean tester;
 
 
-    int ctr=0;
-    List<String> resultList = new ArrayList<String>();
 
     private String QueryURL = "";
     private final String googleBase10 = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
@@ -79,7 +79,7 @@ public class bookOrder extends Fragment {
     private final String isbnType = "^978.*";
 
     String endResults;
-    StringBuffer response;
+    StringBuffer response  = new StringBuffer();
     List<String> procList;
     String Finalinfo = "";
 
@@ -126,7 +126,7 @@ public class bookOrder extends Fragment {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        View myv=inflater.inflate(R.layout.fragment_book_order, container, false);
+        final View myv=inflater.inflate(R.layout.fragment_book_order, container, false);
         title=myv.findViewById(R.id.titlemem);
         author=myv.findViewById(R.id.authorName);
         publisher=myv.findViewById(R.id.pubName);
@@ -137,11 +137,29 @@ public class bookOrder extends Fragment {
         isbn=myv.findViewById(R.id.nnn);
         searchb=myv.findViewById(R.id.search);
         rating = myv.findViewById(R.id.rating);
+        order = myv.findViewById(R.id.button);
+        noorder = myv.findViewById(R.id.noorder);
+
+
+
 
         searchb.setOnClickListener(new Button.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                response.delete(0, response.length());
+                isbnten.setText(null);
+                isbnthirteen.setText(null);
+                rating.setText(null);
+                title.setText(null);
+                publisher.setText(null);
+                datey.setText(null);
+
+                author.setText(null);
+                order.setVisibility(View.GONE);
+                noorder.setVisibility(View.INVISIBLE);
+                rating.setText(" ");
+
 
               book_id = isbn.getText().toString();
               getBookDetails( book_id);
@@ -149,69 +167,24 @@ public class bookOrder extends Fragment {
             }
         });
 
+
+        order.setOnClickListener(new Button.OnClickListener() {
+
+            @Override
+            public void onClick (View v){
+                System.out.println("save!");
+
+                new recordy().execute(root);
+             order.setText("Done!");
+
+            }
+        });
+
+
         return myv;
     }
 
-    private boolean getbookinfo(String queryString){
 
-        String qq=queryString;
-
-        try {
-
-            // connect to google API
-            URI uri = new URI(qq);
-            String mm = uri.toString(); // format URI
-
-            System.out.println(mm);
-
-            URL obj = new URL(mm); // make URL
-
-            // connect and send GET
-            HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
-            con.setRequestMethod("GET");
-
-            // read reply
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    con.getInputStream()));
-            String inputLine;
-            response = new StringBuffer();
-
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine + "\n");
-                //procList.add(inputLine);
-
-                // response.append("\n");
-
-            }
-
-            in.close();
-
-            root = new JSONObject(response.toString());
-
-            String checks=root.getString("totalItems");
-
-            System.out.println("ppppppppppppp"+checks);
-            Log.d("ppppp", checks );
-
-            if(Integer.parseInt(checks)==0){
-                tester= false;
-            }
-            else{
-                tester= true;
-            }
-            //book = root.getJSONArray("items");
-
-        } catch (IOException | URISyntaxException | JSONException e ) {
-
-        } finally {
-
-        }
-
-
-         return tester;
-
-    }
 
 
     private void getBookDetails(String book_id) {
@@ -220,69 +193,222 @@ public class bookOrder extends Fragment {
         if (book_id.matches(isbnType)) {
 
             QueryURL = googleBase13 + book_id + "&key=" + myAPIkey;
-            getbookinfo(QueryURL);
+            response.delete(0, response.length());
+            new asyncc().execute(QueryURL);
 
-            if (!getbookinfo(QueryURL)) {
+            if (!tester) {
                 QueryURL = googleBase10 + book_id + "&key=" + myAPIkey;
-                getbookinfo(QueryURL);
+                response.delete(0, response.length());
+                new asyncc().execute(QueryURL);
             }
 
 
         } else {
 
             QueryURL = googleBase10 + book_id + "&key=" + myAPIkey;
-            getbookinfo(QueryURL);
+            response.delete(0, response.length());
+            new asyncc().execute(QueryURL);
+
 
         }
 
         System.out.println("get here 1");
 
-        try {
-
-            // connect to google API
 
 
-            book = root.getJSONArray("items");
-            isbnten.setText(root.getJSONArray("items").getJSONObject(0)
-                    .getJSONObject("volumeInfo").getJSONArray("categories").toString());
-            isbnthirteen.setText(root.getJSONArray("items").getJSONObject(0)
-                    .getJSONObject("volumeInfo").getString("language"));
-            rating.setText(root.getJSONArray("items").getJSONObject(0)
-                    .getJSONObject("volumeInfo").getString("averageRating"));
-            title.setText(root.getJSONArray("items").getJSONObject(0)
-                    .getJSONObject("volumeInfo").getString("title"));
-            publisher.setText(root.getJSONArray("items").getJSONObject(0)
-                    .getJSONObject("volumeInfo").getString("publisher"));
-            datey.setText(root.getJSONArray("items").getJSONObject(0)
-                    .getJSONObject("volumeInfo").getString("publishedDate"));
+    }
 
-            author.setText(root.getJSONArray("items").getJSONObject(0)
-                    .getJSONObject("volumeInfo").getJSONArray("authors").toString());
+    private class recordy extends AsyncTask<JSONObject, Void, Void> {
+        protected Void doInBackground(JSONObject... entry) {
+
+        JSONObject rr = entry[0];
+
+            String Title,author,publisher,publishe_date,cate, isbn,lang,Status="in Order";
 
 
-            // print result
+            try {
 
-        } catch (JSONException e) {
+                Log.d("kadd", getContext().getFilesDir().toString());
 
-        } finally {
+                fout = getContext().openFileOutput("bookdb.csv", Context.MODE_APPEND);
+
+                Title = root.getJSONArray("items").getJSONObject(0)
+                        .getJSONObject("volumeInfo").getString("title");
+                author = root.getJSONArray("items").getJSONObject(0)
+                        .getJSONObject("volumeInfo").getJSONArray("authors").toString();
+                publisher = root.getJSONArray("items").getJSONObject(0)
+                        .getJSONObject("volumeInfo").getString("publisher");
+                publishe_date = root.getJSONArray("items").getJSONObject(0)
+                        .getJSONObject("volumeInfo").getString("publishedDate");
+                cate = root.getJSONArray("items").getJSONObject(0)
+                        .getJSONObject("volumeInfo").getJSONArray("categories").toString();
+                isbn = book_id.toString();
+
+                lang = root.getJSONArray("items").getJSONObject(0)
+                        .getJSONObject("volumeInfo").getString("language");
+
+
+                addTodatbase = Title.replace(",",":") + "," + author.replace(",",":")
+                        + "," + publisher.replace(",",":") + ","
+                        + publishe_date + "," + cate + "," + isbn + "," + lang + "," + Status + "\n";
+
+                fout.write(addTodatbase.getBytes());
+                fout.close();
+            }catch(IOException | JSONException e){
+
+            }
+
+
+
+
+
+
+            return null;
+        }
+
+
+
+        protected void onPostExecute() {
 
         }
-        String[] StringArr = response.toString().split("\n");
-
-
     }
 
 
-    private String processJason(String responseStr) {
-        
+    private class asyncc extends AsyncTask<String, Void, JSONObject> {
 
-            return "The university policy is books with average rating  of 3.5 "
-                    + "or above can be purchased, the book cannot "
-                    + "be purchased as its rating is 0.0";
+        protected JSONObject doInBackground(String... query) {
+
+            String qq=query[0];
+
+            try {
+
+                // connect to google API
+                URI uri = new URI(qq);
+                String mm = uri.toString(); // format URI
+
+                System.out.println(mm);
+
+                URL obj = new URL(mm); // make URL
+
+                // connect and send GET
+                HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+                con.setRequestMethod("GET");
+
+                // read reply
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(
+                        con.getInputStream()));
+                String inputLine;
+
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine + "\n");
+                    //procList.add(inputLine);
+
+                    // response.append("\n");
+
+                }
+
+                in.close();
+
+                root = new JSONObject(response.toString());
+
+                String checks = root.getString("totalItems");
+
+                System.out.println("ppppppppppppp" + checks);
+                Log.d("ppppp", checks);
+
+                if (Integer.parseInt(checks) == 0) {
+                    tester = false;
+                } else {
+                    tester = true;
+                }
+
+
+                //book = root.getJSONArray("items");
+
+            } catch (IOException | URISyntaxException | JSONException e ) {
+
+            } finally {
+
+            }
+
+            return root;
+
+        }
+
+        protected void onPostExecute(JSONObject result) {
+            try {
+
+                // connect to google API
+
+
+
+                System.out.println(root.getJSONArray("items").getJSONObject(0)
+                        .getJSONObject("volumeInfo"));
+
+                title.setText(root.getJSONArray("items").getJSONObject(0)
+                        .getJSONObject("volumeInfo").getString("title"));
+
+                author.setText(root.getJSONArray("items").getJSONObject(0)
+                        .getJSONObject("volumeInfo").getJSONArray("authors").toString());
+                publisher.setText(root.getJSONArray("items").getJSONObject(0)
+                        .getJSONObject("volumeInfo").getString("publisher"));
+                datey.setText(root.getJSONArray("items").getJSONObject(0)
+                        .getJSONObject("volumeInfo").getString("publishedDate"));
+                isbnten.setText(root.getJSONArray("items").getJSONObject(0)
+                        .getJSONObject("volumeInfo").getJSONArray("categories").toString());
+
+                isbnthirteen.setText(root.getJSONArray("items").getJSONObject(0)
+                        .getJSONObject("volumeInfo").getString("language"));
+
+                if(root.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo")
+                        .has("averageRating")){
+                    rating.setText(root.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo")
+                            .getString("averageRating"));
+                }
+                else{
+                    rating.setText("-1.0");
+                }
+
+
+
+
+                String orderAble= rating.getText().toString();
+
+                if(Float.parseFloat(orderAble)>=3.0){
+
+                    order.setVisibility(View.VISIBLE);
+                }
+                else if (Float.parseFloat(orderAble)<0.0){
+
+                    noorder.setVisibility(View.VISIBLE);
+                    rating.setText("Not available ");
+
+                }
+                else {
+                    noorder.setVisibility(View.VISIBLE);
+                }
+
+
+
+
+
+
+
+                // print result
+
+            } catch (JSONException e) {
+
+            } finally {
+
+            }
+
+        }
+
+
 
     }
-
-// class end
 
 
     // TODO: Rename method, update argument and hook method into UI event
