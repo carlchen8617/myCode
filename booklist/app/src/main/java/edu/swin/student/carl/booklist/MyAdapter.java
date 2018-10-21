@@ -1,6 +1,7 @@
 package edu.swin.student.carl.booklist;
 
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import java.util.List;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     private List<book> booksList;
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView title, rating;
