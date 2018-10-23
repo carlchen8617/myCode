@@ -85,6 +85,8 @@ public class StaffViewHighlvl extends Fragment implements Spinner.OnItemSelected
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+        resultList.clear();
+
         View myv= inflater.inflate(R.layout.fragment_staff_view_highlvl, container, false);
 
         try{

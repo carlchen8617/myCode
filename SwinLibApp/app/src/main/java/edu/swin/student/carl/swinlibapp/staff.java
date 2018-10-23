@@ -23,7 +23,8 @@ import java.util.List;
 
 public class staff extends AppCompatActivity implements
         StaffViewHighlvl.OnFragmentInteractionListener,
-        StaffBookViewDetails.OnFragmentInteractionListener
+        StaffBookViewDetails.OnFragmentInteractionListener,
+        staffViewstdHighLvl.OnFragmentInteractionListener
           {
 
 
@@ -37,6 +38,7 @@ public class staff extends AppCompatActivity implements
     LinearLayout.LayoutParams lp;
     StaffViewHighlvl stafViewfFrag;
     StaffBookViewDetails stafViewDetails;
+    staffViewstdHighLvl staffViewstdHighLvlfrag;
 
 
     @Override
@@ -64,11 +66,16 @@ public class staff extends AppCompatActivity implements
         List listA = new ArrayList();
 
         stafViewfFrag = StaffViewHighlvl.newInstance("g", "v");
-
+        staffViewstdHighLvlfrag=staffViewstdHighLvl.newInstance("g", "v");
 
         listA.add("Select");
-        listA.add("Manage users");
         listA.add("View book DB");
+        listA.add("Manage users");
+
+        fl = findViewById(R.id.fragment_container);
+        lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+
 
         adapter = new ArrayAdapter<String>(this, R.layout.memu_spinner, listA) {
 
@@ -98,10 +105,7 @@ public class staff extends AppCompatActivity implements
 
                 if (sp == 1) {
 
-                    fl = findViewById(R.id.fragment_container);
-                    lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                     fl.setLayoutParams(lp);
-
 
                     for (Fragment fragment : getSupportFragmentManager().getFragments()) {
                         getSupportFragmentManager().beginTransaction().remove(fragment).commit();
@@ -115,12 +119,26 @@ public class staff extends AppCompatActivity implements
                     Log.d("KKKkKKKKKKKKKKKKKKKK", "onItemSelected: 1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
                 }
-                else if (sp == 0){
+                else if (sp == 2){
+
+                    fl.setLayoutParams(lp);
+
+                    for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                        getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                    }
+
+                    getSupportFragmentManager().beginTransaction().add(fl.getId(), staffViewstdHighLvlfrag, "three").commit();
+                    Log.d("ggg", "add 1 ");
+
 
 
                     Log.d("DDD", "onItemSelected: 2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
                 }
+                else if (sp == 0){
+
+                }
+
 
             }
 
@@ -169,6 +187,11 @@ public class staff extends AppCompatActivity implements
 
 
     }
+
+    public void ViewStudentAll(Uri uri) {
+
+        }
+
 
 
 
