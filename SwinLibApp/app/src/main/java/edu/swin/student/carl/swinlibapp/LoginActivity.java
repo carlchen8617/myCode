@@ -6,20 +6,13 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
 
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -338,7 +331,7 @@ public class LoginActivity extends AppCompatActivity  {
 
             try {
                 // Simulate network access.
-                // check if stuff or student
+                // check if stuff or studentActivity
                if(mtypi==1){
 
                    String csvLine;
@@ -425,7 +418,7 @@ public class LoginActivity extends AppCompatActivity  {
         if(type==0)
         {
             studentParcel student= new studentParcel(name,id);
-            Intent intent = new Intent(this, student.class);
+            Intent intent = new Intent(this, studentActivity.class);
             intent.putExtra("id", student);
 
             startActivity(intent);
@@ -435,7 +428,7 @@ public class LoginActivity extends AppCompatActivity  {
         if(type==1){
 
             staffParcel staff= new staffParcel(id);
-            Intent intent = new Intent(this, staff.class);
+            Intent intent = new Intent(this, staffActivity.class);
             intent.putExtra("id", staff);
             startActivity(intent);
 

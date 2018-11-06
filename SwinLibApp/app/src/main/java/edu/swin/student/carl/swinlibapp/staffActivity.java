@@ -1,5 +1,6 @@
 package edu.swin.student.carl.swinlibapp;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
@@ -21,11 +22,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class staff extends AppCompatActivity implements
+public class staffActivity extends AppCompatActivity implements
         StaffViewHighlvl.OnFragmentInteractionListener,
         StaffBookViewDetails.OnFragmentInteractionListener,
-        staffViewstdHighLvl.OnFragmentInteractionListener
-          {
+        staffViewstdHighLvl.OnFragmentInteractionListener,
+        staffViewStdDetails.OnFragmentInteractionListener
+
+{
 
 
     private String id;
@@ -39,6 +42,8 @@ public class staff extends AppCompatActivity implements
     StaffViewHighlvl stafViewfFrag;
     StaffBookViewDetails stafViewDetails;
     staffViewstdHighLvl staffViewstdHighLvlfrag;
+    staffViewStdDetails  staffViewStdDetails;
+
 
 
     @Override
@@ -64,13 +69,15 @@ public class staff extends AppCompatActivity implements
         item = myToolbar.getMenu().findItem(R.id.menustu);
         spinner = (Spinner) item.getActionView();
         List listA = new ArrayList();
+        
 
         stafViewfFrag = StaffViewHighlvl.newInstance("g", "v");
         staffViewstdHighLvlfrag=staffViewstdHighLvl.newInstance("g", "v");
 
         listA.add("Select");
-        listA.add("View book DB");
+        listA.add("Manage book DB");
         listA.add("Manage users");
+        listA.add("Logout");
 
         fl = findViewById(R.id.fragment_container);
         lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -135,6 +142,12 @@ public class staff extends AppCompatActivity implements
                     Log.d("DDD", "onItemSelected: 2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
                 }
+                else if (sp == 3){
+
+                    Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                    startActivity(intent);
+
+                }
                 else if (sp == 0){
 
                 }
@@ -165,9 +178,9 @@ public class staff extends AppCompatActivity implements
 
             stafViewDetails = stafViewDetails.newInstance("g", "v");
             stafViewDetails.getBookID(Integer.toString(row));
-            fl = findViewById(R.id.fragment_container);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            fl.setLayoutParams(lp);
+         //   fl = findViewById(R.id.fragment_container);
+         //   LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        //    fl.setLayoutParams(lp);
             for (Fragment fragment : getSupportFragmentManager().getFragments()) {
                 getSupportFragmentManager().beginTransaction().remove(fragment).commit();
             }
@@ -180,6 +193,37 @@ public class staff extends AppCompatActivity implements
 
         }
 
+
+    }
+
+    public void ViewStudentDetails(String position, int row) {
+        Log.d("how are you", position);
+
+        if (!(position.isEmpty())) {
+            String[] place = position.split(",");// process string
+            Log.d("splited", place[0] + " " + place[1] + " " + place[2]  );
+
+
+            staffViewStdDetails =  staffViewStdDetails.newInstance("g", "v");
+            staffViewStdDetails.getBookID(Integer.parseInt(place[0]));
+            //   fl = findViewById(R.id.fragment_container);
+            //   LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            //    fl.setLayoutParams(lp);
+            for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            }
+
+            getSupportFragmentManager().beginTransaction().add(fl.getId(),  staffViewStdDetails, "four").commit();
+            Log.d("ggg", "add 1 ");
+
+
+
+
+        }
+
+    }
+
+    public void staffViewStdDetailsListener(Uri uri){
 
     }
 

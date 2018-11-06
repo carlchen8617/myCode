@@ -1,5 +1,6 @@
 package edu.swin.student.carl.swinlibapp;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Parcel;
@@ -23,10 +24,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class student extends AppCompatActivity  implements
+public class studentActivity extends AppCompatActivity  implements
         bookBrowse.OnFragmentInteractionListener,
         bookDetails.OnFragmentInteractionListener,
-        bookOrder.OnFragmentInteractionListener{
+        bookOrder.OnFragmentInteractionListener
+        {
 
     private String id;
     TextView hello;
@@ -76,6 +78,8 @@ public class student extends AppCompatActivity  implements
         listA.add("View my details");
         listA.add("Change password");
         listA.add("Book not in database");
+        listA.add("Logout");
+
 
         adapter = new ArrayAdapter<String>(this, R.layout.memu_spinner, listA) {
 
@@ -140,6 +144,12 @@ public class student extends AppCompatActivity  implements
 
                     Log.d("DDD", "onItemSelected: 3!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
+                } else if (sp == 5){
+
+                    Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                    startActivity(intent);
+                    Log.d("logout selected", "Logout Selected: 5!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
                 }
                 else if (sp == 4){
 
@@ -179,6 +189,8 @@ public class student extends AppCompatActivity  implements
     public void onFragmentInteractionOrder(Uri position) {
 
     }
+
+
 
     public void onFragmentInteractionBookBrowse(String position, int row) {
         Log.d("report", "ok got here");

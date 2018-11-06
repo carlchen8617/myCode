@@ -34,11 +34,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".student"
+            android:name=".studentActivity"
             android:label="@string/title_activity_student"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".staff"
+        <activity android:name=".staffActivity"
             android:screenOrientation="portrait"
             ></activity>
     </application>

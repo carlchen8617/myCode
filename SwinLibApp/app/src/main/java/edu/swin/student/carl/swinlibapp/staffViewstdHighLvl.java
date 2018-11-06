@@ -4,9 +4,22 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -17,7 +30,7 @@ import android.view.ViewGroup;
  * Use the {@link staffViewstdHighLvl#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class staffViewstdHighLvl extends Fragment {
+public class staffViewstdHighLvl extends Fragment implements Spinner.OnItemSelectedListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -26,6 +39,10 @@ public class staffViewstdHighLvl extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    List resultList = new ArrayList();
+    Spinner spinner;
+    String o;
+    int r;
 
     private OnFragmentInteractionListener mListener;
 
@@ -63,14 +80,97 @@ public class staffViewstdHighLvl extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        resultList.clear();
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_staff_viewstd_high_lvl, container, false);
+
+        View myv= inflater.inflate(R.layout.fragment_staff_viewstd_high_lvl, container, false);
+
+        try {
+            String csvLine;
+            // FileInputStream fin = new FileInputStream(list);
+
+            //read raw input
+
+            InputStream fin =myv.getContext().getResources().openRawResource(R.raw.student);
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
+            while ((csvLine = reader.readLine()) != null) {
+                Log.d("kkkhhhh", csvLine);
+                resultList.add(csvLine);
+
+            }
+
+            fin.close();
+
+
+            Log.d("kkk", getContext().getFilesDir().toString());
+
+            //read from internal file
+
+            fin =myv.getContext().openFileInput("student.csv");
+
+             reader = new BufferedReader(new InputStreamReader(fin));
+            while ((csvLine = reader.readLine()) != null) {
+                Log.d("kkkhhhh", csvLine);
+                resultList.add(csvLine);
+
+            }
+
+            fin.close();
+
+        } catch (FileNotFoundException e) {
+
+        } catch (IOException e) {
+
+        }
+
+        spinner = (Spinner) myv.findViewById(R.id.studentList_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(myv.getContext(),
+                android.R.layout.simple_spinner_item, resultList);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(this);
+
+
+        return myv;
     }
+
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
+
+        o = parent.getSelectedItem().toString();
+        int selected =parent.getSelectedItemPosition();
+        r=selected;
+
+        parent.setSelection(0); //This line took me 3 days to figure out, the fragement doesn't die, you have to kill the selection
+
+
+        Log.d("ok", "oj" + o);
+
+        if (o != null && selected != 0) {
+
+            mListener.ViewStudentDetails(o,r);
+
+        }
+
+
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback and this is REQUIRED CALLBACK, dont delete
+    }
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.ViewStudentAll(uri);
+
         }
     }
 
@@ -103,6 +203,6 @@ public class staffViewstdHighLvl extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void ViewStudentAll(Uri uri);
+        void ViewStudentDetails(String uri,int row);
     }
 }

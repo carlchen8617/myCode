@@ -11,4 +11,12 @@
         android:layout_height="match_parent"
         android:text="student list" />
 
+    <Spinner
+        android:id="@+id/studentList_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView"
+        android:layout_marginTop="40dp"
+        />
+
 </FrameLayout>
