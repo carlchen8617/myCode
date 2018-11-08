@@ -429,6 +429,7 @@ public class LoginActivity extends AppCompatActivity  {
 
             staffParcel staff= new staffParcel(id);
             Intent intent = new Intent(this, staffActivity.class);
+            //Intent intent = new Intent(this, expandList.class);
             intent.putExtra("id", staff);
             startActivity(intent);
 

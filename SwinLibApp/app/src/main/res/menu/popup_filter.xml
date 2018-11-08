@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:theme="@style/PopupOverlay">
+
+    <!-- "Mark Favorite", should appear as action button if possible -->
+    <item android:id="@+id/addU"
+        android:title="Add user" />
+    <item android:id="@+id/removeU"
+        android:title="Remove User" />
+    <item android:id="@+id/mU"
+        android:title="Manage User" />
+</menu>
