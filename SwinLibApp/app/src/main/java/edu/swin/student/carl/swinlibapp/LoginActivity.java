@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 
@@ -32,6 +33,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -335,8 +340,17 @@ public class LoginActivity extends AppCompatActivity  {
                if(mtypi==1){
 
                    String csvLine;
-                   InputStream fin =getResources().openRawResource(R.raw.staff);
-                   BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
+                   //InputStream fin =getResources().openRawResource(R.raw.staff);
+                   File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath(), "staff.csv");
+                   if(file.exists()) {
+                       Log.d("dsdsddddddddddddddddddd", file.toString() +  "exist!");
+                   }
+                   FileInputStream fin = new FileInputStream(file);
+                   DataInputStream in = new DataInputStream(fin);
+                   BufferedReader reader = new BufferedReader(new InputStreamReader(in));;
+                  // BufferedReader reader = new BufferedReader(fin);
+                   //BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
+
                    while ((csvLine = reader.readLine()) != null) {
                        Log.d("kkkhhhh!!!!!!!!!!!!!!", csvLine);
                        String[] logintest = csvLine.split(",");
@@ -348,20 +362,31 @@ public class LoginActivity extends AppCompatActivity  {
                        }
 
                    }
-                   fin.close();
+                   //fin.close();
                }
 
                 if(mtypi==0){
 
                     String csvLine;
-                    InputStream fin =getResources().openRawResource(R.raw.student);
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
+                   // InputStream fin =getResources().openRawResource(R.raw.student);
+                   // String path= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath();
+                    File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath(), "student.csv");
+                    if(file.exists()) {
+                        Log.d("dsdsddddddddddddddddddd", file.toString() +  "exist!");
+                    }
+                    FileInputStream fin = new FileInputStream(file);
+                    DataInputStream in = new DataInputStream(fin);
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+
+                    //BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
                     while ((csvLine = reader.readLine()) != null) {
                         Log.d("bbbbhhhh!!!!!!!!!!!!!!", csvLine);
                         String[] logintest = csvLine.split(",");
                         if((logintest[0].trim()).equals(mEmail.trim())   && (logintest[2].trim()).equals( mPassword.trim()) ){
                             Log.d("ok", "login OK!!!!!!!!!!!!!!!!!!!!!!!!!!!! ");
                             mName=logintest[1].trim();
+
                             return true;
 
                         }
@@ -399,7 +424,7 @@ public class LoginActivity extends AppCompatActivity  {
 
             if (success) {
                 launchActivity(mName,mEmail,mtypi);
-                Log.d("OK", "successful!!!!!!!!!!!!!!!!!!!!! ");
+                Log.d("OK", "successful!!!!!!!!!!!!!!!!!!!!! "+ mEmail);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -418,8 +443,9 @@ public class LoginActivity extends AppCompatActivity  {
         if(type==0)
         {
             studentParcel student= new studentParcel(name,id);
+
             Intent intent = new Intent(this, studentActivity.class);
-            intent.putExtra("id", student);
+            intent.putExtra("par", student);
 
             startActivity(intent);
 

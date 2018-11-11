@@ -139,26 +139,8 @@
                 android:layout_height="match_parent"
                 android:text="Status:" />
 
-            <Spinner
-                android:id="@+id/hview_spinner"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-
-                />
-
-        </TableRow>
-
-        <TableRow>
-
-
             <TextView
-                android:id="@+id/bywho"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Borrower:" />
-
-            <TextView
-                android:id="@+id/bywholName"
+                android:id="@+id/availName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView" />
@@ -167,13 +149,8 @@
 
     </TableLayout>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="OK"
-        android:layout_gravity="center"
-        android:layout_marginTop="100dp"/>
+
+    
 
     <!-- TODO: Update blank fragment layout -->
 

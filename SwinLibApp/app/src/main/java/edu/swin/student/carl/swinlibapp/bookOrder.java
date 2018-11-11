@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,6 +16,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -25,6 +29,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -52,6 +57,7 @@ public class bookOrder extends Fragment {
     private String mParam1;
     private String mParam2;
     String book_id="9781785766480";
+    String booklisTitle="Book_name,List_of_author(s),Publisher,Published date,Category, ISBN,Language, Status";
     TextView title;
     TextView author;
     TextView publisher;
@@ -66,6 +72,7 @@ public class bookOrder extends Fragment {
     String addTodatbase;
     JSONObject root;
     OutputStream fout;
+    List<String> resultList = new ArrayList<String>();
 
     boolean tester;
 
@@ -82,6 +89,7 @@ public class bookOrder extends Fragment {
     StringBuffer response  = new StringBuffer();
     List<String> procList;
     String Finalinfo = "";
+    String myID;
 
 
     private OnFragmentInteractionListener mListener;
@@ -90,6 +98,13 @@ public class bookOrder extends Fragment {
         // Required empty public constructor
     }
 
+    public void getMyID(String id){
+
+        this.myID=id;
+
+
+
+    }
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -140,8 +155,36 @@ public class bookOrder extends Fragment {
         order = myv.findViewById(R.id.button);
         noorder = myv.findViewById(R.id.noorder);
 
+        try {
+            String csvLine;
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath(), "bookdb.csv");
 
+        FileInputStream fin = new FileInputStream(file);
+        DataInputStream in = new DataInputStream(fin);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
+        // fin =myv.getContext().openFileInput("bookdb.csv");
+
+        // InputStream fin =myv.getContext().getResources().openRawResource(R.raw.bookdb);
+        //  reader = new BufferedReader(new InputStreamReader(fin));
+
+        while ((csvLine = reader.readLine()) != null) {
+
+            Log.d("kkkhhhh", csvLine);
+
+            resultList.add(csvLine.toString());
+
+            //Log.d("kkkhhhh", csvLine);
+
+        }
+
+        fin.close();
+
+    } catch (FileNotFoundException e) {
+
+    } catch (IOException e) {
+
+    }
 
         searchb.setOnClickListener(new Button.OnClickListener() {
 
@@ -223,14 +266,22 @@ public class bookOrder extends Fragment {
 
         JSONObject rr = entry[0];
 
-            String Title,author,publisher,publishe_date,cate, isbn,lang,Status="in Order";
+            String Title,author,publisher,publishe_date,cate, isbn,lang,Status=myID;
 
 
             try {
 
                 Log.d("kadd", getContext().getFilesDir().toString());
 
-                fout = getContext().openFileOutput("bookdb.csv", Context.MODE_APPEND);
+                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath(), "bookdb.csv");
+                FileOutputStream fout = new FileOutputStream(file,false);
+
+                fout.write(booklisTitle.getBytes());
+                fout.close();
+
+                fout = new FileOutputStream(file,true);
+
+
 
                 Title = root.getJSONArray("items").getJSONObject(0)
                         .getJSONObject("volumeInfo").getString("title");
@@ -248,11 +299,16 @@ public class bookOrder extends Fragment {
                         .getJSONObject("volumeInfo").getString("language");
 
 
+                for(int g=1; g < resultList.size(); g++){
+
+                    fout.write(("\n"+resultList.get(g).toString()).getBytes());
+                }
+
                 addTodatbase = Title.replace(",",":") + "," + author.replace(",",":")
                         + "," + publisher.replace(",",":") + ","
                         + publishe_date + "," + cate + "," + isbn + "," + lang + "," + Status + "\n";
 
-                fout.write(addTodatbase.getBytes());
+                fout.write(("\n"+addTodatbase).getBytes());
                 fout.close();
             }catch(IOException | JSONException e){
 

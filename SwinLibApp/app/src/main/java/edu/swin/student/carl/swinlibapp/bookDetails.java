@@ -3,20 +3,27 @@ package edu.swin.student.carl.swinlibapp;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +46,9 @@ public class bookDetails extends Fragment {
     private String mParam1;
     private String mParam2;
     String bkID;
+    int stuID;
+    String booklisTitle="Book_name,List_of_author(s),Publisher,Published date,Category, ISBN,Language, Status";
+    String writeback;
     TextView title;
     TextView author;
     TextView publisher;
@@ -47,6 +57,8 @@ public class bookDetails extends Fragment {
     TextView isbenthirteen, lang;
     TextView avail;
     String[] place;
+    Button borrow;
+
     int ctr=0;
     List<String> resultList = new ArrayList<String>();
 
@@ -74,8 +86,9 @@ public class bookDetails extends Fragment {
         return fragment;
     }
 
-    public void getBookID(String id){
+    public void getBookID(String id, int stuid){
         this.bkID=id;
+        this.stuID=stuid;
 
     }
 
@@ -102,18 +115,24 @@ public class bookDetails extends Fragment {
         lang=myv.findViewById(R.id.langlName);
         isbenthirteen=myv.findViewById(R.id.isbn13Name);
         avail=myv.findViewById(R.id.availName);
+        borrow= myv.findViewById(R.id.borrow);
 
+        resultList.clear();
         try {
             String csvLine;
 
             // FileInputStream fin = new FileInputStream(list);
 
-            Log.d("kkk", getContext().getFilesDir().toString());
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath(), "bookdb.csv");
 
-            FileInputStream fin =myv.getContext().openFileInput("bookdb.csv");
+            FileInputStream fin = new FileInputStream(file);
+            DataInputStream in = new DataInputStream(fin);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+           // fin =myv.getContext().openFileInput("bookdb.csv");
 
            // InputStream fin =myv.getContext().getResources().openRawResource(R.raw.bookdb);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
+           //  reader = new BufferedReader(new InputStreamReader(fin));
 
             while ((csvLine = reader.readLine()) != null) {
 
@@ -148,18 +167,70 @@ public class bookDetails extends Fragment {
         cate.setText(place[4]);
         isbenthirteen.setText(place[5]);
         lang.setText(place[6]);
-        avail.setText(place[7]);
+        if(!(place[7].trim().matches("[a|A]vai.*"))){
+            avail.setText("On Loan");
+            borrow.setVisibility(View.INVISIBLE);
+        }
+        else{
+            avail.setText(place[7]);
+
+        }
+
+
+        borrow.setOnClickListener( new View.OnClickListener() {
+
+            @Override
+            public void onClick(View myv) {
+                // TODO Auto-generated method stub
+               // ***Do what you want with the click here***
+
+                place[7]=String.valueOf(stuID);
+                writeback=place[0] + "," + place[1] + "," + place[2] + "," + place[3]
+                        + "," + place[4] + "," + place[5] + "," + place[6] + "," + place[7];
+                resultList.set(Integer.parseInt(bkID),writeback);
+
+
+                try {
+
+                    File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath(), "bookdb.csv");
+                    FileOutputStream fout = new FileOutputStream(file,false);
+
+                    fout.write(booklisTitle.getBytes());
+                    fout.close();
+
+                    fout = new FileOutputStream(file,true);
+
+                //OutputStream fout =myv.getContext().openFileOutput("bookdb.csv",Context.MODE_PRIVATE);
+
+                // InputStream fin =myv.getContext().getResources().openRawResource(R.raw.bookdb);
+                    for(int g=1; g < resultList.size(); g++){
+
+                        fout.write(("\n"+resultList.get(g).toString()).getBytes());
+                    }
+
+
+
+                fout.close();
+
+            } catch (FileNotFoundException e) {
+
+            } catch (IOException e) {
+
+            }
+
+
+                Toast.makeText(getContext(), "Ok Done!", Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
 
 
         return myv;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteractionDetails(uri);
-        }
-    }
+
 
     @Override
     public void onAttach(Context context) {

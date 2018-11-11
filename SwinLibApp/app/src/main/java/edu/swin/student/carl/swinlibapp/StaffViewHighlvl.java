@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -91,8 +94,14 @@ public class StaffViewHighlvl extends Fragment implements Spinner.OnItemSelected
 
         try{
 
-            InputStream fin =myv.getContext().getResources().openRawResource(R.raw.bookdb);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath(), "bookdb.csv");
+
+            FileInputStream fin = new FileInputStream(file);
+            DataInputStream in = new DataInputStream(fin);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+           // InputStream fin =myv.getContext().getResources().openRawResource(R.raw.bookdb);
+           // BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
             while ((csvLine = reader.readLine()) != null) {
                 Log.d("kkkhhhh", csvLine);
                 resultList.add(csvLine);

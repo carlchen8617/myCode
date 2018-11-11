@@ -14,6 +14,7 @@ class studentParcel implements Parcelable {
 
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(Name);
+        dest.writeString(id);
 
     }
 
