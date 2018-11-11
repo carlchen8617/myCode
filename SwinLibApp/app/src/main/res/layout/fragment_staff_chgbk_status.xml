@@ -1,9 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".bookDetails">
+    tools:context="edu.swin.student.carl.swinlibapp.staffCHGbkStatus">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/hello_blank_fragment" />
 
     <TableLayout
         android:layout_width="match_parent"
@@ -139,22 +144,23 @@
                 android:layout_height="match_parent"
                 android:text="Status:" />
 
-            <TextView
-                android:id="@+id/availName"
+            <Spinner
+                android:id="@+id/chg_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+
+                />
 
         </TableRow>
 
     </TableLayout>
 
-
-
-
-    <!-- TODO: Update blank fragment layout -->
-
-
-
+    <Button
+        android:id="@+id/borrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change?"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"/>
 
 </FrameLayout>

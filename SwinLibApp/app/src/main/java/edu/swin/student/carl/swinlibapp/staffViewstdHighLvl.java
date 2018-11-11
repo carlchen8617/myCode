@@ -3,6 +3,7 @@ package edu.swin.student.carl.swinlibapp;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -91,26 +94,13 @@ public class staffViewstdHighLvl extends Fragment implements Spinner.OnItemSelec
             // FileInputStream fin = new FileInputStream(list);
 
             //read raw input
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath(), "student.csv");
 
-            InputStream fin =myv.getContext().getResources().openRawResource(R.raw.student);
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
-            while ((csvLine = reader.readLine()) != null) {
-                Log.d("kkkhhhh", csvLine);
-                resultList.add(csvLine);
-
-            }
-
-            fin.close();
+            FileInputStream fin = new FileInputStream(file);
+            DataInputStream in = new DataInputStream(fin);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
 
-            Log.d("kkk", getContext().getFilesDir().toString());
-
-            //read from internal file
-
-            fin =myv.getContext().openFileInput("student.csv");
-
-             reader = new BufferedReader(new InputStreamReader(fin));
             while ((csvLine = reader.readLine()) != null) {
                 Log.d("kkkhhhh", csvLine);
                 resultList.add(csvLine);

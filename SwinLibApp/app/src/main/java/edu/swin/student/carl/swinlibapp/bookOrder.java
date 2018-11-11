@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -56,8 +57,8 @@ public class bookOrder extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    String book_id="9781785766480";
-    String booklisTitle="Book_name,List_of_author(s),Publisher,Published date,Category, ISBN,Language, Status";
+    String book_id = "9781785766480";
+    String booklisTitle = "Book_name,List_of_author(s),Publisher,Published date,Category, ISBN,Language, Status";
     TextView title;
     TextView author;
     TextView publisher;
@@ -68,14 +69,13 @@ public class bookOrder extends Fragment {
     TextView avail;
     TextView noorder;
     EditText isbn;
-    Button searchb,order;
+    Button searchb, order;
     String addTodatbase;
     JSONObject root;
     OutputStream fout;
     List<String> resultList = new ArrayList<String>();
 
     boolean tester;
-
 
 
     private String QueryURL = "";
@@ -86,7 +86,7 @@ public class bookOrder extends Fragment {
     private final String isbnType = "^978.*";
 
     String endResults;
-    StringBuffer response  = new StringBuffer();
+    StringBuffer response = new StringBuffer();
     List<String> procList;
     String Finalinfo = "";
     String myID;
@@ -98,13 +98,13 @@ public class bookOrder extends Fragment {
         // Required empty public constructor
     }
 
-    public void getMyID(String id){
+    public void getMyID(String id) {
 
-        this.myID=id;
-
+        this.myID = id;
 
 
     }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -124,7 +124,6 @@ public class bookOrder extends Fragment {
     }
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,50 +140,50 @@ public class bookOrder extends Fragment {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        final View myv=inflater.inflate(R.layout.fragment_book_order, container, false);
-        title=myv.findViewById(R.id.titlemem);
-        author=myv.findViewById(R.id.authorName);
-        publisher=myv.findViewById(R.id.pubName);
-        datey=myv.findViewById(R.id.dateName);
-        isbnten=myv.findViewById(R.id.isbn10Name);
-        isbnthirteen=myv.findViewById(R.id.isbn13Name);
-        avail=myv.findViewById(R.id.availName);
-        isbn=myv.findViewById(R.id.nnn);
-        searchb=myv.findViewById(R.id.search);
+        final View myv = inflater.inflate(R.layout.fragment_book_order, container, false);
+        title = myv.findViewById(R.id.titlemem);
+        author = myv.findViewById(R.id.authorName);
+        publisher = myv.findViewById(R.id.pubName);
+        datey = myv.findViewById(R.id.dateName);
+        isbnten = myv.findViewById(R.id.isbn10Name);
+        isbnthirteen = myv.findViewById(R.id.isbn13Name);
+        avail = myv.findViewById(R.id.availName);
+        isbn = myv.findViewById(R.id.nnn);
+        searchb = myv.findViewById(R.id.search);
         rating = myv.findViewById(R.id.rating);
         order = myv.findViewById(R.id.button);
         noorder = myv.findViewById(R.id.noorder);
 
         try {
             String csvLine;
-        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath(), "bookdb.csv");
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath(), "bookdb.csv");
 
-        FileInputStream fin = new FileInputStream(file);
-        DataInputStream in = new DataInputStream(fin);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            FileInputStream fin = new FileInputStream(file);
+            DataInputStream in = new DataInputStream(fin);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
-        // fin =myv.getContext().openFileInput("bookdb.csv");
+            // fin =myv.getContext().openFileInput("bookdb.csv");
 
-        // InputStream fin =myv.getContext().getResources().openRawResource(R.raw.bookdb);
-        //  reader = new BufferedReader(new InputStreamReader(fin));
+            // InputStream fin =myv.getContext().getResources().openRawResource(R.raw.bookdb);
+            //  reader = new BufferedReader(new InputStreamReader(fin));
 
-        while ((csvLine = reader.readLine()) != null) {
+            while ((csvLine = reader.readLine()) != null) {
 
-            Log.d("kkkhhhh", csvLine);
+                Log.d("kkkhhhh", csvLine);
 
-            resultList.add(csvLine.toString());
+                resultList.add(csvLine.toString());
 
-            //Log.d("kkkhhhh", csvLine);
+                //Log.d("kkkhhhh", csvLine);
+
+            }
+
+            fin.close();
+
+        } catch (FileNotFoundException e) {
+
+        } catch (IOException e) {
 
         }
-
-        fin.close();
-
-    } catch (FileNotFoundException e) {
-
-    } catch (IOException e) {
-
-    }
 
         searchb.setOnClickListener(new Button.OnClickListener() {
 
@@ -204,8 +203,8 @@ public class bookOrder extends Fragment {
                 rating.setText(" ");
 
 
-              book_id = isbn.getText().toString();
-              getBookDetails( book_id);
+                book_id = isbn.getText().toString();
+                getBookDetails(book_id);
 
             }
         });
@@ -214,11 +213,30 @@ public class bookOrder extends Fragment {
         order.setOnClickListener(new Button.OnClickListener() {
 
             @Override
-            public void onClick (View v){
+            public void onClick(View v) {
                 System.out.println("save!");
 
-                new recordy().execute(root);
-             order.setText("Done!");
+                //checking if book is already in database
+                String p = ".*" + book_id + ".*";
+                boolean doit = true;
+
+                for (int g = 1; g < resultList.size(); g++) {
+
+                    if (resultList.get(g).toString().matches(p)) {
+
+                        doit = false;
+
+                        Toast.makeText(getContext(), "Book already in stock or ordered!", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }
+
+                if (doit) {
+
+                    new recordy().execute(root);
+                    order.setText("Done!");
+                }
 
             }
         });
@@ -226,8 +244,6 @@ public class bookOrder extends Fragment {
 
         return myv;
     }
-
-
 
 
     private void getBookDetails(String book_id) {
@@ -258,15 +274,14 @@ public class bookOrder extends Fragment {
         System.out.println("get here 1");
 
 
-
     }
 
     private class recordy extends AsyncTask<JSONObject, Void, Void> {
         protected Void doInBackground(JSONObject... entry) {
 
-        JSONObject rr = entry[0];
+            JSONObject rr = entry[0];
 
-            String Title,author,publisher,publishe_date,cate, isbn,lang,Status=myID;
+            String Title, author, publisher, publishe_date, cate, isbn, lang, Status = myID;
 
 
             try {
@@ -274,13 +289,12 @@ public class bookOrder extends Fragment {
                 Log.d("kadd", getContext().getFilesDir().toString());
 
                 File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath(), "bookdb.csv");
-                FileOutputStream fout = new FileOutputStream(file,false);
+                FileOutputStream fout = new FileOutputStream(file, false);
 
                 fout.write(booklisTitle.getBytes());
                 fout.close();
 
-                fout = new FileOutputStream(file,true);
-
+                fout = new FileOutputStream(file, true);
 
 
                 Title = root.getJSONArray("items").getJSONObject(0)
@@ -299,29 +313,24 @@ public class bookOrder extends Fragment {
                         .getJSONObject("volumeInfo").getString("language");
 
 
-                for(int g=1; g < resultList.size(); g++){
+                for (int g = 1; g < resultList.size(); g++) {
 
-                    fout.write(("\n"+resultList.get(g).toString()).getBytes());
+                    fout.write(("\n" + resultList.get(g).toString()).getBytes());
                 }
 
-                addTodatbase = Title.replace(",",":") + "," + author.replace(",",":")
-                        + "," + publisher.replace(",",":") + ","
+                addTodatbase = Title.replace(",", ":") + "," + author.replace(",", ":")
+                        + "," + publisher.replace(",", ":") + ","
                         + publishe_date + "," + cate + "," + isbn + "," + lang + "," + Status + "\n";
 
-                fout.write(("\n"+addTodatbase).getBytes());
+                fout.write(("\n" + addTodatbase).getBytes());
                 fout.close();
-            }catch(IOException | JSONException e){
+            } catch (IOException | JSONException e) {
 
             }
 
 
-
-
-
-
             return null;
         }
-
 
 
         protected void onPostExecute() {
@@ -334,7 +343,7 @@ public class bookOrder extends Fragment {
 
         protected JSONObject doInBackground(String... query) {
 
-            String qq=query[0];
+            String qq = query[0];
 
             try {
 
@@ -383,7 +392,7 @@ public class bookOrder extends Fragment {
 
                 //book = root.getJSONArray("items");
 
-            } catch (IOException | URISyntaxException | JSONException e ) {
+            } catch (IOException | URISyntaxException | JSONException e) {
 
             } finally {
 
@@ -397,7 +406,6 @@ public class bookOrder extends Fragment {
             try {
 
                 // connect to google API
-
 
 
                 System.out.println(root.getJSONArray("items").getJSONObject(0)
@@ -418,38 +426,28 @@ public class bookOrder extends Fragment {
                 isbnthirteen.setText(root.getJSONArray("items").getJSONObject(0)
                         .getJSONObject("volumeInfo").getString("language"));
 
-                if(root.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo")
-                        .has("averageRating")){
+                if (root.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo")
+                        .has("averageRating")) {
                     rating.setText(root.getJSONArray("items").getJSONObject(0).getJSONObject("volumeInfo")
                             .getString("averageRating"));
-                }
-                else{
+                } else {
                     rating.setText("-1.0");
                 }
 
 
+                String orderAble = rating.getText().toString();
 
-
-                String orderAble= rating.getText().toString();
-
-                if(Float.parseFloat(orderAble)>=3.0){
+                if (Float.parseFloat(orderAble) >= 3.0) {
 
                     order.setVisibility(View.VISIBLE);
-                }
-                else if (Float.parseFloat(orderAble)<0.0){
+                } else if (Float.parseFloat(orderAble) < 0.0) {
 
                     noorder.setVisibility(View.VISIBLE);
                     rating.setText("Not available ");
 
-                }
-                else {
+                } else {
                     noorder.setVisibility(View.VISIBLE);
                 }
-
-
-
-
-
 
 
                 // print result
@@ -461,7 +459,6 @@ public class bookOrder extends Fragment {
             }
 
         }
-
 
 
     }

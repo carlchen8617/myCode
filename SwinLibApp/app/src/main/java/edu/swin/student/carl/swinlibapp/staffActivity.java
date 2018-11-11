@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class staffActivity extends AppCompatActivity implements
@@ -31,7 +32,8 @@ public class staffActivity extends AppCompatActivity implements
         staffViewstdHighLvl.OnFragmentInteractionListener,
         staffViewStdDetails.OnFragmentInteractionListener,
         staffAddUser.OnFragmentInteractionListener,
-        staffremoveUser.OnFragmentInteractionListener
+        staffremoveUser.OnFragmentInteractionListener,
+        staffCHGbkStatus.OnFragmentInteractionListener
 
 {
 
@@ -51,7 +53,8 @@ public class staffActivity extends AppCompatActivity implements
     staffViewStdDetails staffViewStdDetails;
     staffAddUser staffAddUserfrag;
     staffremoveUser staffremoveUserfrag;
-
+    staffCHGbkStatus staffCHGbkStatusfrag;
+    addUser addUserfrag;
 
 
     @Override
@@ -69,7 +72,7 @@ public class staffActivity extends AppCompatActivity implements
 
         studentParcel stu = getIntent().getParcelableExtra("id");
 
-        hello.setText("Hi" + stu.Name);
+        hello.setText("Hi " + stu.Name + "!");
 
     }
 
@@ -86,8 +89,10 @@ public class staffActivity extends AppCompatActivity implements
 
         stafViewfFrag = StaffViewHighlvl.newInstance("g", "v");
         staffViewstdHighLvlfrag = staffViewstdHighLvl.newInstance("g", "v");
-        staffAddUserfrag=staffAddUser.newInstance("g", "v");
+       staffAddUserfrag=staffAddUser.newInstance("g", "v");
         staffremoveUserfrag= staffremoveUser.newInstance("g", "v");
+        staffCHGbkStatusfrag=staffCHGbkStatus.newInstance("g","v");
+        //addUserfrag= addUser.newInstance("g", "v");
 
         listA.add("Select");
         listA.add("Manage book DB");
@@ -131,7 +136,7 @@ public class staffActivity extends AppCompatActivity implements
                         getSupportFragmentManager().beginTransaction().remove(fragment).commit();
                     }
 
-                    getSupportFragmentManager().beginTransaction().add(fl.getId(), stafViewfFrag, "one").commit();
+                    getSupportFragmentManager().beginTransaction().add(fl.getId(),stafViewfFrag, "one").commit();
                     spinner.setSelection(0);
 
 
@@ -287,7 +292,26 @@ public class staffActivity extends AppCompatActivity implements
 
     }
 
-    public void staffViewStdDetailsListener(Uri uri) {
+    public void staffCHGBKAail(String position, int row) {
+
+        if (!(position.isEmpty())) {
+
+
+            stafViewDetails = stafViewDetails.newInstance("g", "v");
+            staffCHGbkStatusfrag.getBookID(position,row);
+            //   fl = findViewById(R.id.fragment_container);
+            //   LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            //    fl.setLayoutParams(lp);
+            for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            }
+
+            getSupportFragmentManager().beginTransaction().add(fl.getId(), staffCHGbkStatusfrag, "seven").commit();
+            Log.d("ggg", "add 1 ");
+
+
+        }
+        Toast.makeText(this, "Ok Done!", Toast.LENGTH_SHORT).show();
 
     }
     public void addUser(Uri uri) {
@@ -302,7 +326,7 @@ public class staffActivity extends AppCompatActivity implements
 
     }
 
-    public void ViewStudentAll(Uri uri) {
+    public void onFragmentInteractionEnd(Uri uri) {
 
     }
 

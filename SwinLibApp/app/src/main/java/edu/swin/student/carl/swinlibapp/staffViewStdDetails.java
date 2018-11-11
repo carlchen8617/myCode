@@ -4,20 +4,28 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -29,7 +37,7 @@ import java.util.List;
  * Use the {@link staffViewStdDetails#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class staffViewStdDetails extends Fragment {
+public class staffViewStdDetails extends Fragment implements Spinner.OnItemSelectedListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -42,8 +50,15 @@ public class staffViewStdDetails extends Fragment {
     TextView head;
     TextView name;
     List resultList = new ArrayList();
+    HashMap<Integer, Integer> hmap = new HashMap<Integer, Integer>();
+    List ct = new ArrayList();
+    Spinner spinner;
     String result;
     int test;
+    String o;
+    int r, all=1,we=1;
+    String booklisTitle="Book_name,List_of_author(s),Publisher,Published date,Category, ISBN,Language, Status";
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -94,24 +109,82 @@ public class staffViewStdDetails extends Fragment {
         View myv= inflater.inflate(R.layout.fragment_staff_view_std_details, container, false);
 
         head=myv.findViewById(R.id.head);
-        name=myv.findViewById(R.id.StudentName);
+
+        spinner = (Spinner) myv.findViewById(R.id.stddetails_spinner);
+
+
         head.setText("student " + stdID);
 
         result="";
-        new  processStudent().execute(stdID);
+       // new  processStudent().execute(stdID);
 
+        resultList.clear();
+      //  resultList.add(booklisTitle);
+        ct.clear();
+        all=-1;
+        we=1;
+        try {
+            String csvLine;
 
+            // FileInputStream fin = new FileInputStream(list);
 
+            Log.d("kkk", getContext().getFilesDir().toString());
+
+            // InputStream fin =myv.getContext().getResources().openRawResource(R.raw.bookdb);
+            //BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
+
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath(), "bookdb.csv");
+
+            FileInputStream fin = new FileInputStream(file);
+            DataInputStream in = new DataInputStream(fin);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            while ((csvLine = reader.readLine()) != null) {
+
+                Log.d("kkkhhhh", csvLine);
+                String p=".*"+stdID+"$";
+                String pt="Book_name,List_of_author.*";
+                if(csvLine.trim().matches(p) || csvLine.trim().matches(pt)){
+                    resultList.add(csvLine);
+                    ct.add(all);
+
+                }
+
+                all++;
+
+            }
+
+            fin.close();
+            /**
+             fin =myv.getContext().openFileInput("bookdb.csv");
+             //InputStream fin =myv.getContext().getResources().openRawResource(R.raw.bookdb);
+             reader = new BufferedReader(new InputStreamReader(fin));
+             while ((csvLine = reader.readLine()) != null) {
+             Log.d("kkkhhhh", csvLine);
+             resultList.add(csvLine);
+
+             }
+
+             fin.close();
+             **/
+
+        } catch (FileNotFoundException e) {
+
+        } catch (IOException e) {
+
+        }
+
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(getContext(),
+                android.R.layout.simple_spinner_item, resultList);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
 
         return  myv;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.staffViewStdDetailsListener(uri);
-        }
-    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -142,103 +215,40 @@ public class staffViewStdDetails extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void staffViewStdDetailsListener(Uri uri);
+        void staffCHGBKAail(String item, int pos);
     }
 
-    //Do processing in background
-
-    private class processStudent extends AsyncTask<Integer, Void, String> {
-        protected String doInBackground(Integer... integers) {
-
-            int stid = integers[0];
-
-            Log.d("kkkk", "doInBackground: "+stid);
-
-            String[] pr;
-
-            try {
-                String csvLine;
-
-                //read raw input
-
-                InputStream fin =getContext().getResources().openRawResource(R.raw.student);
-
-                BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
-                while ((csvLine = reader.readLine()) != null) {
-
-                    pr=csvLine.split(",");
-
-                    if(Integer.parseInt(pr[0])==stid){
-
-                        result=csvLine;
-                        Log.d("kkkhhhh", csvLine);
-
-                        test=1;
-
-                        return result;
-
-                    }
 
 
 
-                }
-
-                fin.close();
-
-
-                Log.d("kkk", getContext().getFilesDir().toString());
-
-                //read from internal file
-
-                if(test==0){
-
-                    fin =getContext().openFileInput("student.csv");
-
-                    reader = new BufferedReader(new InputStreamReader(fin));
-                    while ((csvLine = reader.readLine()) != null) {
-                        Log.d("kkkhhhh", csvLine);
-                        pr=csvLine.split(",");
-                        if(Integer.parseInt(pr[0])==stid){
-
-                            result=csvLine;
-                            Log.d("kkkhhhh", csvLine);
-
-                            test=1;
-
-                            return result;
-
-                        }
-
-                    }
-
-                    fin.close();
-
-                }
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
 
 
+        o = parent.getSelectedItem().toString();
+        String kk=o;
+        int selected =parent.getSelectedItemPosition();
+        int bb=Integer.parseInt(ct.get(selected).toString());
+        Log.d("BBBBBBBB", "onItemSelected: "+ selected);
 
-            } catch (FileNotFoundException e) {
+        Log.d("GGGGGGGGGGG", "onItemSelected: "+  bb);
 
-            } catch (IOException e) {
-
-            }
+        r= bb;
 
 
+        Log.d("okkkkkkkkkkkkkkkkkk", "ojjjjjjjjjjjjj" + o);
 
+        if (o != null && selected != 0) {
 
-           return result;
-
+            mListener.staffCHGBKAail(kk,r);
 
         }
+        parent.setSelection(0); //This line took me 3 days to figure out, the fragement doesn't die, you have to kill the selection
 
 
+    }
 
-        protected void onPostExecute(String result) {
-
-            String[] stu=result.split(",");
-            Log.d("see me?", "onCreateView: "+ stu[0]);
-             name.setText(stu[1]);
-
-        }
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback and this is REQUIRED CALLBACK, dont delete
     }
 }

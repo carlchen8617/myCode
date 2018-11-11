@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.swin.student.carl.swinlibapp.staffAddUser">
+    tools:context="edu.swin.student.carl.swinlibapp.addUser">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -71,7 +71,7 @@
     </TableLayout>
 
     <Button
-        android:id="@+id/addUUU"
+        android:id="@+id/add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add?"

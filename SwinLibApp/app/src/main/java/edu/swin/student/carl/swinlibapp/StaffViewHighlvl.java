@@ -110,18 +110,7 @@ public class StaffViewHighlvl extends Fragment implements Spinner.OnItemSelected
 
             fin.close();
 
-            Log.d("kkk", getContext().getFilesDir().toString());
 
-             fin =myv.getContext().openFileInput("bookdb.csv");
-            //InputStream fin =myv.getContext().getResources().openRawResource(R.raw.bookdb);
-            reader = new BufferedReader(new InputStreamReader(fin));
-            while ((csvLine = reader.readLine()) != null) {
-                Log.d("kkkhhhh", csvLine);
-                resultList.add(csvLine);
-
-            }
-
-            fin.close();
 
         } catch (FileNotFoundException e) {
 
@@ -159,7 +148,7 @@ public class StaffViewHighlvl extends Fragment implements Spinner.OnItemSelected
 
         Log.d("ok", "oj" + o);
 
-        if (o != null && selected != 0) { //Only send call back if the selection is not empty
+        if (o != null && selected != 0 ) { //Only send call back if the selection is not empty
             mListener.onFragmentInteractionStaffView(o, r);
 
         }
