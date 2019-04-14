@@ -36,6 +36,7 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -368,13 +369,33 @@ public class LoginActivity extends AppCompatActivity  {
                 if(mtypi==0){
 
                     String csvLine;
-                   // InputStream fin =getResources().openRawResource(R.raw.student);
-                   // String path= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath();
+
+                    /**
+                     * for the application to work, either use raw resources, that will need modify a few files as they
+                     * are configured to read external resources. copy the file in Raw into Myfile/Dovuments/Documents folder and allow
+                     * permission for storage and location on the phone
+                     */
+                    // InputStream fin =getResources().openRawResource(R.raw.student);
+                    String path= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath();
+
+
+                    Log.d("herehere", path +  " exist!");
                     File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath(), "student.csv");
+                   // FileOutputStream fout = new FileOutputStream(file,true);
+
+                   // fout.write(fin.read());
+                  //  fout.close();
                     if(file.exists()) {
-                        Log.d("dsdsddddddddddddddddddd", file.toString() +  "exist!");
+                        Log.d("dsdsddddddddddddddddddd", "Internal storage" + file.toString() +  " exist!");
                     }
-                    FileInputStream fin = new FileInputStream(file);
+                    else {
+
+                        Log.d("BBBB", file.toString() +  " not exist!");
+                    }
+
+                   FileInputStream fin = new FileInputStream(file);
+
+
                     DataInputStream in = new DataInputStream(fin);
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
