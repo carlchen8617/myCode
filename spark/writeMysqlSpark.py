@@ -25,7 +25,7 @@ jj=ki.write.jdbc("jdbc:mysql://localhost/test",\
                  "append",\
                  {"driver":"com.mysql.jdbc.Driver",\
                   "user":"carl",\
-                  "password":"Fangpi!234",\
+                  "password":"myPassword",\
                   "serverTimezone":"UTC"}\
                  )
 print(jj)

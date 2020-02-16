@@ -22,7 +22,7 @@ jj=spark.read.format('jdbc')\
             .option("driver", "com.mysql.jdbc.Driver")\
             .option("dbtable",  query)\
             .option("user", "carl")\
-            .option("password", "Fangpi!234")\
+            .option("password", "mypassword")\
             .option("serverTimezone","UTC")\
             .load()
 
