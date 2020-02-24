@@ -1,0 +1,14 @@
+
+    general : libglib / libgobject / libpthread
+    console : libncurses
+    2D graphics : libX11 / libSDL
+    3D graphics : libGL / libGLU / libGLUT
+    GUI toolkits : libgtk / libQT
+    Images : libjpeg / libpng / libgif
+    text rendering : libpango / libfreetype
+    sound : libasound / libSDL
+    compression : libz (zlib) / libgzip / libbz2
+    encryption : libcrypt / libssl / libgssapi / libkrb5
+    XML : libxml2
+    web : libcurl
+
