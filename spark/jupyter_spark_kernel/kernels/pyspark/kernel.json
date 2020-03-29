@@ -1,0 +1,30 @@
+{
+ "_comment": "This is the integration kernel for spark and jupyter",
+
+ "argv": [
+  "python3",
+  "-m", "ipykernel",
+  "-f", 
+  "{connection_file}"
+ 
+],
+"env":{
+  "SPARK_HOME": "/home/carl/Downloads/spark-2.4.5-bin-hadoop2.7",
+  "HADOOP_CONF_DIR": "/home/carl/Downloads/hadoop-2.7.3/etc/hadoop",
+  "SPARK_LOG_DIR": "/home/carl/Downloads/log",
+  "SPARK_WORKER_DIR": "/tmp/spark",
+  "HIVE_CONF_DIR": "/home/carl/Downloads/apache-hive-2.3.6-bin/conf",
+  "PYSPARK_PYTHON": "/usr/bin/python3",
+  "PYLIB": "$SPARK_HOME:/python/lib",
+  "PYTHONPATH": "$PYTHONPATH:$PYLIB:/py4j-0.10.4-src.zip",
+  "PYTHONPATH": "$PYTHONPATH:$PYLIB:/pyspark.zip",
+  "PYSPARK_SUBMIT_ARGS": "--name yarn pyspark-shell",
+  "PYTHONSTARTUP": "$SPARK_HOME/python/pyspark/shell.py"
+
+
+
+},
+
+ "display_name": "Pyspark 2.4.5",
+ "language": "python3"
+}

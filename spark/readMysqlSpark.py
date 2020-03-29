@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+# run like spark-submit --driver-class-path  /usr/share/java/mysql-connector-java.jar readMysqlSpark.py
 import pyspark 
 import os
 from pyspark.sql.types import TimestampType
@@ -22,7 +23,7 @@ jj=spark.read.format('jdbc')\
             .option("driver", "com.mysql.jdbc.Driver")\
             .option("dbtable",  query)\
             .option("user", "carl")\
-            .option("password", "mypassword")\
+            .option("password", "Fangpi!234")\
             .option("serverTimezone","UTC")\
             .load()
 
