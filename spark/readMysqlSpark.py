@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # run like spark-submit --driver-class-path  /usr/share/java/mysql-connector-java.jar readMysqlSpark.py
+# the mysql root password is just the swin pass
 import pyspark 
 import os
 from pyspark.sql.types import TimestampType
