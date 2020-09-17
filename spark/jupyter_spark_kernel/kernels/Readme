@@ -1,0 +1,44 @@
+To run pyspark, there are following pre-requisites
+
+* Run jps to check you have datanode and namenode ready:
+
+ [carl@192-168-1-107 spark]$ jps
+21251 DataNode
+20982 NameNode
+21560 SecondaryNameNode
+4346 Jps
+22011 NodeManager
+21819 ResourceManager
+
+if not, do the following steps:
+
+1. $rm -rf /tmp/hadoop-carl/*
+2. $~/Downloads/hadoop-2.7.3/sbin/stop-all.sh
+3. $~/Downloads/hadoop-2.7.3/sbin/stop-all.sh
+4. $jps
+
+* Create some hdfs stuff
+
+$hadoop fs -mkdir -p hadoopFS
+$hadoop fs -put ss.yml hadoopFS
+$hadoop fs -ls -R
+
+* put kernel files in /usr/local/share/jupyter/kernels
+
+[carl@192-168-1-107 kernels]$ pwd
+/usr/local/share/jupyter/kernels
+[carl@192-168-1-107 kernels]$ tree .
+.
+├── pyspark
+│   ├── kernel.json
+│   └── Untitled.ipynb
+└── python3
+    ├── kernel.json
+    ├── logo-32x32.png
+    └── logo-64x64.png
+
+2 directories, 5 files
+
+
+
+
