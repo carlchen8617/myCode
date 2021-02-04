@@ -1,0 +1,4 @@
+from python
+COPY . /tmp
+CMD ["python3","/tmp/test.py"]
+
