@@ -1,0 +1,1 @@
+pyspark --packages com.microsoft.ml.spark:mmlspark_2.11:1.0.0-rc1 --repositories=https://mmlspark.azureedge.net/maven
