@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      containers:
+      - name: jenkins
+        image: jenkins/jenkins:lts
+        ports:
+          - containerPort: 8083
+        env:
+        - name: JENKINS_OPTS
+          valueFrom:
+            configMapKeyRef:
+              name: jenkins
+              key: jenkins_opts
+        volumeMounts:
+        - name: jenkins-storage
+          mountPath: /var/lib/pgsql/data
+      volumes:
+      - name: jenkins-storage
+        persistentVolumeClaim:
+          claimName: jenkins-pv-claim
