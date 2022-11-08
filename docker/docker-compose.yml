@@ -1,0 +1,11 @@
+ version: "3"
+ services:
+    python_run:
+       image: ${dc_image}
+       command: sh -c " cd /opt/code && python3 entry.py"
+       volumes:
+          - /home/carl/myCode/docker:/opt/code
+
+
+            
+
