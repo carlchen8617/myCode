@@ -1,0 +1,2 @@
+# docker run with local volume mounted
+docker % docker run --rm -v $(pwd):/wshp -w /wshp node --version
